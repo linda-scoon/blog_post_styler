@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>izebuy blog design v3 — Mbayani Market</title>
+<style>
+  /* All scoped under .izebuy-post so it never fights the WP theme. */
+  body{ background:#f4f1ea; margin:0; padding:40px 16px; }
+
+  /* WIDE full-width template — images get room to breathe */
+  .izebuy-post{
+    max-width:1140px; margin:0 auto; background:#fff;
+    padding:52px 60px 44px; box-shadow:0 2px 18px rgba(0,0,0,.08);
+    font-family:Georgia,'Times New Roman',serif; color:#1a1a1a;
+    line-height:1.7; font-size:18px;
+  }
+
+  /* H1 — masthead, double underline */
+  .izebuy-post h1{
+    text-align:center; text-transform:uppercase; letter-spacing:3px;
+    font-size:46px; margin:0 0 28px; padding-bottom:16px;
+    border-bottom:8px double #111;
+  }
+
+  /* HERO: TOC left, BIG featured image right */
+  .izebuy-hero{ display:flex; gap:32px; align-items:flex-start; margin-bottom:34px; }
+  .izebuy-toc{ flex:0 0 280px; border:1px solid #cfc8b8; background:#faf8f2; padding:18px 20px; font-size:15px; line-height:2; }
+  .izebuy-toc .toc-title{ text-transform:uppercase; letter-spacing:1px; font-size:12px; font-weight:bold; color:#8a7a4a; margin:0 0 10px; border-bottom:1px solid #e3ddcb; padding-bottom:7px; }
+  .izebuy-toc ul{ margin:0; padding-left:18px; }
+  .izebuy-toc a{ color:#333; text-decoration:none; }
+  .izebuy-featured{ flex:1; margin:0; }
+  .izebuy-featured figcaption{ font-size:14px; font-style:italic; color:#777; margin-top:8px; text-align:center; }
+
+  /* H2 / H3 */
+  .izebuy-post h2{ text-transform:uppercase; letter-spacing:1.5px; font-size:23px; margin:48px 0 18px; padding-bottom:9px; border-bottom:2px solid #111; clear:both; }
+  .izebuy-post h3{ font-size:18px; font-variant:small-caps; letter-spacing:.5px; color:#444; margin:30px 0 14px; border-left:4px solid #c9a24a; padding-left:12px; }
+  .izebuy-post p{ margin:0 0 16px; }
+
+  figure{ margin:0; }
+  figure img,.ph{ width:100%; height:auto; display:block; border:1px solid #ddd; }
+  figcaption{ font-size:13px; font-style:italic; color:#777; margin-top:6px; }
+  .clear{ clear:both; }
+
+  /* NEWSPAPER FLOAT — bigger floated image, text wraps around it */
+  .izebuy-figR{ float:right; width:420px; margin:4px 0 14px 28px; }
+  .izebuy-figL{ float:left;  width:420px; margin:4px 28px 14px 0; }
+
+  /* ITEM CARDS — image is BIG (the content); name + hours caption underneath.
+     Two across on this wide template → ~500px images. */
+  .izebuy-items{ display:flex; flex-wrap:wrap; gap:30px; margin:10px 0 14px; }
+  .izebuy-item{ flex:1 1 calc(50% - 15px); }
+  .izebuy-item .ph{ height:330px; }                 /* big image */
+  .izebuy-item figure img{ height:330px; object-fit:cover; }
+  .izebuy-item .it-cap{ margin-top:10px; padding-bottom:2px; }
+  .izebuy-item .it-name{ font-weight:bold; font-size:19px; display:block; }
+  .izebuy-item .it-text{ font-size:16px; color:#333; }
+  .izebuy-item .it-hours{ color:#8a7a4a; font-size:14px; font-style:italic; }
+
+  /* Optional: a section that is ALL photos with almost no text can go 3-up,
+     still large. (not used below, just here in the system) */
+  .izebuy-items.cols3 .izebuy-item{ flex:1 1 calc(33.333% - 20px); }
+  .izebuy-items.cols3 .izebuy-item .ph,
+  .izebuy-items.cols3 .izebuy-item figure img{ height:240px; }
+
+  /* STYLED BULLETS */
+  ul.izebuy-bullets{ list-style:none; padding:0; margin:0 0 20px; }
+  ul.izebuy-bullets li{ position:relative; padding:11px 0 11px 30px; border-bottom:1px dotted #ddd; font-size:17px; }
+  ul.izebuy-bullets li::before{ content:"›"; position:absolute; left:8px; top:9px; color:#c9a24a; font-weight:bold; font-size:20px; }
+
+  /* AUTHOR CARD — last heading, its own photo, pinned at the foot */
+  .izebuy-author{ display:flex; gap:24px; align-items:center; margin-top:46px; padding:24px 28px; background:#faf8f2; border:1px solid #cfc8b8; }
+  .izebuy-author figure{ flex:0 0 120px; }
+  .izebuy-author .ph{ height:120px; border-radius:50%; }
+  .izebuy-author h2{ border:none; margin:0 0 8px; padding:0; font-size:15px; color:#8a7a4a; }
+  .izebuy-author p{ margin:0; font-size:17px; }
+
+  @media (max-width:760px){
+    .izebuy-post{ padding:28px 20px; }
+    .izebuy-hero{ flex-direction:column; }
+    .izebuy-toc{ flex-basis:auto; width:100%; box-sizing:border-box; }
+    .izebuy-figR,.izebuy-figL{ float:none; width:100%; margin:0 0 16px; }
+    .izebuy-item{ flex:1 1 100%; }
+    .izebuy-item .ph,.izebuy-item figure img{ height:auto; min-height:240px; }
+    .izebuy-author{ flex-direction:column; text-align:center; }
+  }
+
+  .ph{ background:repeating-linear-gradient(45deg,#ececec,#ececec 14px,#e2e2e2 14px,#e2e2e2 28px); display:flex; align-items:center; justify-content:center; color:#8a8a8a; font:italic 13px Georgia; text-align:center; padding:6px; box-sizing:border-box; }
+</style>
+</head>
+<body>
+
+<article class="izebuy-post">
+
+  <h1>Mbayani Market</h1>
+
+  <div class="izebuy-hero">
+    <nav class="izebuy-toc">
+      <p class="toc-title">[toc] — Contents</p>
+      <ul>
+        <li><a href="#s1">How to get there</a></li>
+        <li><a href="#s2">Things you can buy</a></li>
+        <li><a href="#s3">Shops and services</a></li>
+        <li><a href="#s5">About the author</a></li>
+      </ul>
+    </nav>
+    <figure class="izebuy-featured">
+      <div class="ph" style="height:340px">FEATURED IMAGE → "mbayani-market.jpg" (set as WP Featured Image)</div>
+      <figcaption>Mbayani Market, Blantyre</figcaption>
+    </figure>
+  </div>
+
+  <p>Mbayani market is located in Blantyre, not far from Chirimba Market. It serves the surrounding communities of Nyambadwe and Chemusa and is well known for its cheap products, ranging from fresh fruits and vegetables to secondhand clothes. It is one of the most popular markets in Blantyre and can get very congested, especially in the evening.</p>
+
+  <h2 id="s1">How to get to Mbayani Market</h2>
+  <figure class="izebuy-figR">
+    <div class="ph" style="height:280px">"how-to-get-to-mbayani-market.jpg"<br>(the bus stop)</div>
+    <figcaption>Mbayani market bus stop, off the M1</figcaption>
+  </figure>
+  <p>You can travel to Mbayani market by minibus, taxi, or your own car.</p>
+  <p>To get there by minibus from Blantyre CBD, catch a bus from Kandodo bus stop heading to Chileka via the M1 road and get off at the Mbayani market bus stop, which is very close to the market. It takes about 5 minutes, then a minute’s walk down to the market. Expect to pay K400 for a return minibus fare.</p>
+  <p>By taxi it takes about 2 minutes and costs around K2,000 return. There is no parking area, so if you use your own car you park anywhere at the market at your own risk.</p>
+  <div class="clear"></div>
+
+  <h2 id="s2">Things you can buy at Mbayani Market</h2>
+  <div class="izebuy-items">
+    <div class="izebuy-item">
+      <figure><div class="ph">"tomatoes-and-onions.jpg"</div></figure>
+      <div class="it-cap"><span class="it-name">Tomatoes &amp; Onions</span><span class="it-text">Cheap, good-quality — what Mbayani is best known for.</span></div>
+    </div>
+    <div class="izebuy-item">
+      <figure><div class="ph">"vegetables.jpg"</div></figure>
+      <div class="it-cap"><span class="it-name">Vegetables</span><span class="it-text">A wide variety of fresh fruits and vegetables at very cheap prices.</span></div>
+    </div>
+    <div class="izebuy-item">
+      <figure><div class="ph">"clothes.jpg"</div></figure>
+      <div class="it-cap"><span class="it-name">Clothes</span><span class="it-text">Secondhand traders with the cheapest prices of any Blantyre market.</span></div>
+    </div>
+    <div class="izebuy-item">
+      <figure><div class="ph">"fish.jpg"</div></figure>
+      <div class="it-cap"><span class="it-name">Fish</span><span class="it-text">Both fresh and dried fish are sold here.</span></div>
+    </div>
+  </div>
+
+  <h2 id="s3">Shops and services you can find at Mbayani Market</h2>
+
+  <h3>Services</h3>
+  <ul class="izebuy-bullets">
+    <li><b>Mill:</b> one unnamed maize mill serves people around the market.</li>
+    <li><b>Barbershops:</b> many — including Kelvins, Angoni and Pachil Barbershop.</li>
+    <li><b>Hair dressing salons:</b> several, such as Faith Salon &amp; Cosmetics (braiding and hair relaxing).</li>
+  </ul>
+
+  <h3>Shops</h3>
+  <div class="izebuy-items">
+    <div class="izebuy-item">
+      <figure><div class="ph">"lsm-general-dealers.jpg"</div></figure>
+      <div class="it-cap"><span class="it-name">LSM General Dealers</span><span class="it-text">Plastic kitchenware. </span><span class="it-hours">Mon–Sat, 7am – 6pm</span></div>
+    </div>
+    <div class="izebuy-item">
+      <figure><div class="ph">"mutheya-devoleyaka-shopping-centre.jpg"</div></figure>
+      <div class="it-cap"><span class="it-name">Mutheya Devoleyaka Shopping Centre</span><span class="it-text">Grocery store. </span><span class="it-hours">Weekdays, 5am – 8pm</span></div>
+    </div>
+    <div class="izebuy-item">
+      <figure><div class="ph">"first-quality-designs.jpg"</div></figure>
+      <div class="it-cap"><span class="it-name">First Quality Designs</span><span class="it-text">Sews and sells clothes. </span><span class="it-hours">Mon–Sat, 8am – 6pm</span></div>
+    </div>
+  </div>
+
+  <div class="izebuy-author" id="s5">
+    <figure><div class="ph">"about-the-author.jpg"</div></figure>
+    <div>
+      <h2>About the Author</h2>
+      <p>Ulemu Matipula is a freelance writer based in Blantyre, Malawi. Besides writing he is passionate about computers and is studying Web Design at a local university. Contact him at <a href="mailto:info@development.izebuy.com">info@development.izebuy.com</a>.</p>
+    </div>
+  </div>
+
+</article>
+</body>
+</html>
