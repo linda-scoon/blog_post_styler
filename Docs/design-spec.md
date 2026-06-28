@@ -1,59 +1,91 @@
-# izebuy Blog Post — Design Spec (house style)
+# izebuy Blog Post — Design Spec (the single source of truth)
 
-The single source of truth for how every blog post must look. Locked to the
-**"gold standard"** design (`examples/01examplearticlembayani.html`). The
-canonical stylesheet is `styles/izebuy-post.css`.
+**This is the one and only instructions document for how a blog post must look.**
+(It replaces the old `sessionexport.md` and `03generatorbuildprompt.md`, which
+were consolidated here.) Locked to the **"gold standard"** design
+(`examples/01examplearticlembayani.html`); the canonical stylesheet is
+`styles/izebuy-post.css`.
 
 ## Hard rules
 
-- **No colour.** The generator emits structure only — no colour declarations,
-  ever. Text and borders inherit black; the live theme supplies any colour
-  through its own design tokens.
-- **Everything scoped to `.izebuy-post`** so it cannot affect the rest of the site.
+- **No colour**, with ONE deliberate exception: the About-the-author box has a
+  light neutral background so it reads as a proper card. Everything else inherits
+  black text/borders; the live theme supplies colour through its design tokens.
+- **Everything scoped to `.izebuy-post`** so it can't affect the rest of the site.
 - **Images render large** — they are the content, never thumbnails.
-- **About-the-author block is conditional** — include it **only if the source
-  post already has author information**. Never invent one.
+- **Market posts: the writer's words are never changed.** When restyling an
+  existing market post we only strip junk shortcodes and apply styling — no
+  rewriting, no inventing sections.
+- **About-the-author block is conditional** — included **only if the post already
+  has author info**. Never invent one.
 
 ## Structure model
 
-Section structure comes from heading levels:
-
 | Element | Role | Style |
 | --- | --- | --- |
-| `H1` | Post title → centred masthead | uppercase, letter-spaced, **double underline**. Set from the post title; any H1 in the body is ignored. |
-| Hero row | `[toc]` contents (left) + featured image (right) | `.izebuy-hero` > `.izebuy-toc` + `figure.izebuy-featured` |
+| `H1` | Post title → centred masthead | uppercase, letter-spaced, **double underline**. From the title; any body H1 is ignored. |
+| **Hero row** | Contents + cover image | `.izebuy-hero` > `nav.izebuy-toc` ( `[toc]` ) + `figure.izebuy-featured` (cover). See below. |
 | `H2` | Main section header | uppercase, single rule. **Each H2 is a contents entry.** |
-| `H3` | Zone inside the walk-through | small-caps, left rule. |
+| `H3` | Sub-heading / zone | small-caps, left rule. |
 | `p` | Body text | normal paragraphs |
+
+### The hero row (cover image + contents)
+
+- **Desktop:** the **contents box is on the LEFT**, the **cover image on the
+  RIGHT**.
+- **Mobile:** they stack, and the **cover image comes ABOVE the contents**.
+- The **cover image is the post's WordPress Featured Image** (filename = the
+  market name). The generator places it in the hero; if its URL isn't known yet
+  it leaves a marked placeholder.
 
 ## Components
 
-- **Floated figures** — `figure.izebuy-figR` / `.izebuy-figL` (420px) for
-  text-heavy sections where the text wraps the image. Follow with `<div class="clear"></div>`.
-- **The map** — `figure.izebuy-map`, full content width, the centrepiece of the
-  walk-through section.
 - **Item grid** — `.izebuy-items` (two-column grid) of `.izebuy-item` cards for
-  shops/products. Each card: `figure > img`, then `.it-cap` with
-  `.it-name` / `.it-text` / `.it-hours`.
-- **Practical-tips list** — `ul.izebuy-bullets` (custom "›" marker).
-- **"Golden nugget"** — an inline tip, emphasised with `<b>Golden nugget:</b>`
-  at the start of a paragraph. Not a separate box, no colour.
-- **About-the-author** — `.izebuy-author` (round avatar + bio). Conditional, see above.
+  shops/products. Each card: `figure > img`, then `.it-cap` with `.it-name` (bold,
+  own line) and `.it-text` beneath. **No leading colon** before the description.
+- **Bold-lead items** (a labelled item with no photo, e.g. services) → a paragraph
+  `<p><b>Name</b> description</p>` — again **no colon** after the name.
+- **The map** — `figure.izebuy-map`, full content width, kept where the writer put
+  it (existing posts embed a Google map; that's fine).
+- **Floated figures** — `.izebuy-figR` / `.izebuy-figL` (420px) for text-heavy
+  sections where text wraps the image. Follow with `<div class="clear"></div>`.
+- **Bulleted list** — `ul.izebuy-bullets` (custom "›" marker).
+- **"Golden nugget"** — an inline tip, `<b>Golden nugget:</b>` leading a paragraph.
+- **About-the-author** — `.izebuy-author`: a **small, centred card** (max ~560px,
+  not full width) with the author photo (round), a light neutral background, and
+  rounded border. Conditional (see hard rules).
 
-## Images
+## Shortcodes
 
-Image positions come from a marker paragraph in the source `.docx`:
+- **Keep (whitelist):** `[toc]`, `[izebuy_socials]`, `[izebuy_email]`,
+  `[izebuy_phone]`, `[izebuy_address]`, `[affiliate_disclosure]`.
+- **Convert** `[lwptoc]` → `[toc]`.
+- **Strip** `[pricings]`, `[ads]`, and any other unknown shortcode.
+
+## Images (for new posts written from a `.docx`)
+
+Each image's position is marked in the source `.docx` by a paragraph:
 
 ```
 Photo — <filename> · "<caption>"
 ```
 
-That marker is the source of truth for **where** an image goes, its
-**filename**, and its **caption**. The real photo files live in the WordPress
-media library; output `<img>` `src` points there.
+That marker is the source of truth for **where** the image goes, its **filename**,
+and its **caption**. Real photos live in the WordPress media library; the output
+`<img>` `src` points there.
 
-## Shortcodes
+## Article skeleton (the writer's content model)
 
-- **Keep:** `[toc]` (or the site's TOC shortcode) — renders the contents box.
-- **Strip:** everything else — leftover Elementor/page-builder shortcodes and
-  any other `[...]` not on the keep-list.
+The fixed H2 order every market write-up follows (see the writer's brief,
+`izebuymarketwritersbrief.md`, for the full instructions):
+
+1. *Opening* (no heading) — what & where, 2–3 lines
+2. Getting to [Market] from [nearest big town]
+3. The feel of the place
+4. What's around the market
+5. What [Market] is famous for
+6. **Walking the market** — the centrepiece
+7. Shops, services & opening hours
+8. Practical tips
+9. Our honest take (no star ratings)
+10. About the Author (last) — conditional

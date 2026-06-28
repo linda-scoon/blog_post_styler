@@ -135,7 +135,7 @@ def render_section_body(blocks):
         nonlocal pending
         if pending:
             name, rest = pending
-            out.append(f"<p><b>{name}</b>{(': ' + rest) if rest else ''}</p>")
+            out.append(f"<p><b>{name}</b>{(' ' + rest) if rest else ''}</p>")
             pending = None
 
     for kind, val in blocks:
@@ -147,7 +147,7 @@ def render_section_body(blocks):
                     '<div class="izebuy-item"><figure>'
                     f'<img src="{src}" alt="{html.escape(alt)}"></figure>'
                     f'<div class="it-cap"><span class="it-name">{name}</span>'
-                    f'<span class="it-text">{(": " + rest) if rest else ""}</span></div></div>'
+                    f'<span class="it-text">{rest}</span></div></div>'
                 )
                 pending = None
             else:
@@ -212,11 +212,13 @@ def extract_author(blocks):
     return None, blocks
 
 
-def build_article(title, blocks):
+def build_article(title, blocks, cover=None):
     intro, sections, current = [], [], None
     for kind, val in blocks:
         if kind == "h1":
             continue
+        if kind == "p" and collapse_ws(val).strip().lower() == "[toc]":
+            continue   # the TOC lives in the hero, not the body
         if kind == "h2":
             current = {"title": collapse_ws(text_only(val)), "blocks": []}
             sections.append(current)
@@ -225,7 +227,24 @@ def build_article(title, blocks):
         else:
             current["blocks"].append((kind, val))
 
-    parts = [f"<h1>{title}</h1>"]
+    # Hero: contents (left) + cover image (right). The cover is the post's
+    # WordPress Featured Image; if we don't have its URL yet, leave a marked
+    # placeholder so the layout is visible.
+    if cover:
+        cover_fig = (f'<figure class="izebuy-featured">'
+                     f'<img src="{html.escape(cover)}" alt="{html.escape(title)}">'
+                     f"<figcaption>{html.escape(title)}</figcaption></figure>")
+    else:
+        cover_fig = ('<figure class="izebuy-featured">'
+                     '<div class="ph" style="min-height:300px">Cover image — the '
+                     f'WordPress Featured Image for &ldquo;{html.escape(title)}&rdquo;'
+                     "</div></figure>")
+
+    parts = [f"<h1>{title}</h1>",
+             '<div class="izebuy-hero">',
+             '<nav class="izebuy-toc">[toc]</nav>',
+             cover_fig,
+             "</div>"]
     if intro:
         parts.append(render_section_body(intro))
     for s in sections:
@@ -241,7 +260,7 @@ def convert(json_path):
     content = clean_shortcodes(post.get("content_raw") or "")
     blocks = tokenize(content)
     author, blocks = extract_author(blocks)
-    article = build_article(title, blocks)
+    article = build_article(title, blocks, post.get("cover_image"))
     if author:
         article += "\n" + author
     return post, f'<article class="izebuy-post">\n{article}\n</article>'
@@ -258,10 +277,14 @@ def standalone(post, article):
                 + "".join(f'<li><a href="#{i}">{text_only(t).title()}</a></li>'
                           for i, t in heads) + "</ul>")
     preview = article.replace("[toc]", "<!-- [toc] shortcode -->" + toc_html)
+    ph_css = (".ph{background:repeating-linear-gradient(45deg,#eee,#eee 14px,"
+              "#e3e3e3 14px,#e3e3e3 28px);display:flex;align-items:center;"
+              "justify-content:center;font:italic 13px Georgia;text-align:center;"
+              "padding:10px;box-sizing:border-box;border:1px solid;min-height:120px;}")
     return (f"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n"
             f"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
             f"<title>{html.escape(post.get('title',''))} — izebuy (styled preview)</title>\n"
-            f"<style>\nbody{{margin:0;padding:40px 16px;}}\n{css}\n</style>\n</head>\n"
+            f"<style>\nbody{{margin:0;padding:40px 16px;}}\n{css}\n{ph_css}\n</style>\n</head>\n"
             f"<body>\n{preview}\n</body>\n</html>\n")
 
 
