@@ -20,9 +20,9 @@ WordPress site, plus the field method and writer guidance behind it.
 | Folder | Contents |
 | --- | --- |
 | `Docs/` | The written specs and guidance (see below). |
-| `scripts/` | Tooling. `fetch_posts.py` pulls existing posts from the WordPress API into `content/`. |
-| `.github/workflows/` | GitHub Actions. `fetch-posts.yml` runs the fetch (which can reach the site even though the Claude sandbox can't). |
-| `content/` | Blog posts fetched from the live site (populated by the fetch script). |
+| `scripts/` | Tooling: `fetch_posts.py` (pull posts), `style_post.py` (apply the design), `publish_posts.py` (write styled posts back as drafts/updates). |
+| `.github/workflows/` | GitHub Actions: `fetch-posts.yml` and `publish-posts.yml` (run from GitHub, which can reach the site even though the Claude sandbox can't). |
+| `content/` | `raw/` fetched posts, `styled/` generated previews, `backup/` originals saved before publishing. |
 | `styles/` | `izebuy-post.css` — the canonical scoped stylesheet (the locked "gold standard" design, structure only, no colour). |
 | `examples/` | The test-fixture article (`.docx`) and its styled HTML output. Used to develop and verify the generator. |
 | `mockups/` | Design mockups / prototypes of the styled post layout. |
