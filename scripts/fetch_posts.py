@@ -151,16 +151,23 @@ def main():
             }
 
             base_name = f"{pid}-{slug}"
-            with open(os.path.join(RAW_DIR, base_name + ".json"), "w", encoding="utf-8") as f:
-                json.dump(record, f, indent=2, ensure_ascii=False)
-            with open(os.path.join(RAW_DIR, base_name + ".html"), "w", encoding="utf-8") as f:
-                f.write(content_raw or "")
+            json_path = os.path.join(RAW_DIR, base_name + ".json")
 
-            flags = []
-            if not (content_raw or "").strip():
-                flags.append("EMPTY-content")
-            if looks_like_elementor(content_raw):
-                flags.append("looks-elementor")
+            if os.path.exists(json_path):
+                # NEVER overwrite an existing original. Re-fetching a post we have
+                # already published would pull OUR OWN output back and corrupt the
+                # writer's source (a feedback loop). Delete the file to force a re-pull.
+                flags = ["preserved-original"]
+            else:
+                with open(json_path, "w", encoding="utf-8") as f:
+                    json.dump(record, f, indent=2, ensure_ascii=False)
+                with open(os.path.join(RAW_DIR, base_name + ".html"), "w", encoding="utf-8") as f:
+                    f.write(content_raw or "")
+                flags = []
+                if not (content_raw or "").strip():
+                    flags.append("EMPTY-content")
+                if looks_like_elementor(content_raw):
+                    flags.append("looks-elementor")
 
             index.append({
                 "id": pid, "slug": slug, "title": title_raw, "status": p.get("status"),
