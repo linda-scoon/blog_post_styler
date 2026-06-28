@@ -95,8 +95,8 @@ def main():
     os.makedirs(RAW_DIR, exist_ok=True)
 
     # context=edit returns the RAW, unprocessed content (so we see shortcodes /
-    # whatever Elementor left behind) and requires authentication.
-    fields = "id,slug,link,status,date,modified,title,content,excerpt,categories,tags,featured_media,author"
+    # whatever Elementor left behind) and requires authentication. _embed pulls
+    # the Featured Image URL (the post's cover image) along with each post.
     per_page = 100
     page = 1
     index = []
@@ -108,7 +108,7 @@ def main():
             "status": status,
             "per_page": per_page,
             "page": page,
-            "_fields": fields,
+            "_embed": "wp:featuredmedia",
             "orderby": "date",
             "order": "asc",
         })
@@ -124,6 +124,15 @@ def main():
             title_raw = (p.get("title") or {}).get("raw", "")
             content_raw = (p.get("content") or {}).get("raw", "")
 
+            # cover image = the post's Featured Image (from the _embed payload)
+            cover_image = ""
+            try:
+                media = (p.get("_embedded") or {}).get("wp:featuredmedia") or []
+                if media and isinstance(media[0], dict):
+                    cover_image = media[0].get("source_url", "") or ""
+            except Exception:
+                cover_image = ""
+
             record = {
                 "id": pid,
                 "slug": slug,
@@ -137,6 +146,7 @@ def main():
                 "categories": p.get("categories", []),
                 "tags": p.get("tags", []),
                 "featured_media": p.get("featured_media"),
+                "cover_image": cover_image,
                 "author": p.get("author"),
             }
 

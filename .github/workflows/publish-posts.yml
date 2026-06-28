@@ -1,0 +1,55 @@
+name: Publish styled posts to WordPress
+
+# Manual trigger. Writes the styled market posts back to the site via the API.
+# Safe by default: it runs as a DRY RUN unless you set "commit" to true.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "update (overwrite in place, keep status) or draft-copy (new draft)"
+        type: choice
+        options: [update, draft-copy]
+        default: update
+      only:
+        description: "Single post id (e.g. 4458 for Mbayani). Blank = all market posts."
+        required: false
+      commit:
+        description: "Actually write to the site? Leave false for a safe dry run."
+        type: boolean
+        default: false
+
+permissions:
+  contents: write   # to commit the content/backup/ files
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Publish
+        env:
+          WP_BASE_URL: ${{ secrets.WP_BASE_URL }}
+          WP_USERNAME: ${{ secrets.WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          DRY_RUN: ${{ inputs.commit == true && 'false' || 'true' }}
+        run: |
+          python3 scripts/publish_posts.py \
+            --mode "${{ inputs.mode }}" \
+            ${{ inputs.only != '' && format('--only {0}', inputs.only) || '' }}
+
+      - name: Commit backups
+        if: ${{ inputs.commit == true }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/backup/ || true
+          if git diff --staged --quiet; then
+            echo "No backups to commit."
+          else
+            git commit -m "Back up posts before publishing [skip ci]"
+            git push origin HEAD:${{ github.ref_name }}
+          fi

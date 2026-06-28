@@ -20,9 +20,9 @@ WordPress site, plus the field method and writer guidance behind it.
 | Folder | Contents |
 | --- | --- |
 | `Docs/` | The written specs and guidance (see below). |
-| `scripts/` | Tooling. `fetch_posts.py` pulls existing posts from the WordPress API into `content/`. |
-| `.github/workflows/` | GitHub Actions. `fetch-posts.yml` runs the fetch (which can reach the site even though the Claude sandbox can't). |
-| `content/` | Blog posts fetched from the live site (populated by the fetch script). |
+| `scripts/` | Tooling: `fetch_posts.py` (pull posts), `style_post.py` (apply the design), `publish_posts.py` (write styled posts back as drafts/updates). |
+| `.github/workflows/` | GitHub Actions: `fetch-posts.yml` and `publish-posts.yml` (run from GitHub, which can reach the site even though the Claude sandbox can't). |
+| `content/` | `raw/` fetched posts, `styled/` generated previews, `backup/` originals saved before publishing. |
 | `styles/` | `izebuy-post.css` — the canonical scoped stylesheet (the locked "gold standard" design, structure only, no colour). |
 | `examples/` | The test-fixture article (`.docx`) and its styled HTML output. Used to develop and verify the generator. |
 | `mockups/` | Design mockups / prototypes of the styled post layout. |
@@ -34,12 +34,12 @@ WordPress site, plus the field method and writer guidance behind it.
   is an earlier wording ("What we're doing…") than the `.docx` above ("This is a
   commission…"). Kept as the editable Markdown source; reconcile the two when
   convenient.*
-- **`design-spec.md`** — the locked house style (gold standard, no colour). Single source of truth for how every post must look.
+- **`design-spec.md`** — **the single source of truth** for how every post must
+  look (gold standard, no colour, hero with cover image, shortcode whitelist,
+  article skeleton). Consolidated — there is only one design instructions doc.
+- **`marketmappingmethod.md`** — how izebuy maps a market (the field method).
 - **`reformatting-plan.md`** — plan + status for reformatting the existing live posts into the house style.
 - **`setup-credentials.md`** — how to create the WordPress Application Password and add the GitHub secrets the tooling needs.
-- **`marketmappingmethod.md`** — how izebuy maps a market (the field method).
-- **`03generatorbuildprompt.md`** — the build prompt / spec for the HTML generator tool.
-- **`sessionexport.md`** — design log of decisions made so far.
 
 ### `examples/`
 - **`01examplearticlembayani.docx`** — the Mbayani example article (test fixture).
