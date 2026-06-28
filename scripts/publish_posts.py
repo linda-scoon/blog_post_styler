@@ -49,14 +49,6 @@ _spec.loader.exec_module(style_post)
 MARKET_IDS = style_post.MARKET_IDS
 
 
-def with_inline_css(article):
-    """Embed the scoped stylesheet in the post so it is styled on the live site
-    without needing any theme changes. The CSS is scoped to .izebuy-post."""
-    with open(style_post.CSS_PATH, encoding="utf-8") as f:
-        css = f.read()
-    return f"<style>\n{css}\n</style>\n{article}"
-
-
 def env(name, required=True, default=None):
     val = os.environ.get(name, default)
     if required and not val:
@@ -111,7 +103,7 @@ def main():
             print(f"  [{pid}] no fetched post found — skipping")
             continue
         post, article = style_post.convert(os.path.join(RAW, fn))
-        wp_html = with_inline_css(article)
+        wp_html = article   # clean semantic HTML only — CSS is provided by the theme
         label = post["title"][:40]
 
         if not commit:
