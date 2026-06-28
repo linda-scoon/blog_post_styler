@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chirimba Market — izebuy (styled preview)</title>
+<style>
+body{margin:0;padding:40px 16px;}
+/* ==========================================================================
+   izebuy blog post — canonical scoped stylesheet  (the "gold standard")
+   --------------------------------------------------------------------------
+   Newspaper-style layout for a single market write-up.
+   STRUCTURE ONLY — deliberately NO colour declarations. Text and borders
+   inherit `currentColor` (black) and the live theme supplies any colour
+   through its own design tokens. The generator must never emit colour.
+
+   Everything is scoped under `.izebuy-post` so it cannot leak into the rest
+   of the WordPress theme. Load this once in the theme (recommended) rather
+   than inlining a <style> block in every post — that avoids depending on the
+   `unfiltered_html` capability when posting through the REST API.
+   ========================================================================== */
+
+.izebuy-post{ max-width:1140px; margin:0 auto; padding:52px 60px 44px;
+  font-family:Georgia,'Times New Roman',serif; line-height:1.7; font-size:18px; }
+
+/* H1 = centred masthead with a double underline (set from the post title) */
+.izebuy-post h1{ text-align:center; text-transform:uppercase; letter-spacing:3px;
+  font-size:46px; margin:0 0 28px; padding-bottom:16px; border-bottom:8px double; }
+
+/* Hero row: table of contents (left) + featured image (right) */
+.izebuy-hero{ display:flex; gap:32px; align-items:flex-start; margin-bottom:34px; }
+.izebuy-toc{ flex:0 0 280px; border:1px solid; padding:18px 20px; font-size:15px; line-height:2; }
+.izebuy-toc .toc-title{ text-transform:uppercase; letter-spacing:1px; font-size:12px;
+  font-weight:bold; margin:0 0 10px; border-bottom:1px solid; padding-bottom:7px; }
+.izebuy-toc ul{ margin:0; padding-left:18px; }
+.izebuy-toc a{ color:inherit; text-decoration:none; }
+.izebuy-featured{ flex:1; margin:0; }
+.izebuy-featured figcaption{ font-size:14px; font-style:italic; margin-top:8px; text-align:center; }
+
+/* H2 = uppercase section header with a single rule (each H2 is a contents entry) */
+.izebuy-post h2{ text-transform:uppercase; letter-spacing:1.5px; font-size:23px;
+  margin:48px 0 18px; padding-bottom:9px; border-bottom:2px solid; clear:both; }
+/* H3 = small-caps sub-heading with a left rule (the zones inside the walk-through) */
+.izebuy-post h3{ font-size:18px; font-variant:small-caps; letter-spacing:.5px;
+  margin:30px 0 14px; border-left:4px solid; padding-left:12px; }
+.izebuy-post p{ margin:0 0 16px; }
+
+/* Images are the content: large, never thumbnails. */
+.izebuy-post figure{ margin:0; }
+.izebuy-post figure img{ width:100%; height:auto; display:block; border:1px solid; }
+.izebuy-post figcaption{ font-size:13px; font-style:italic; margin-top:6px; }
+.izebuy-post .clear{ clear:both; }
+
+/* Float helpers for text-heavy sections (text wraps the image) */
+.izebuy-figR{ float:right; width:420px; margin:4px 0 14px 28px; }
+.izebuy-figL{ float:left;  width:420px; margin:4px 28px 14px 0; }
+
+/* The hand-drawn map — centrepiece of the walk-through, full content width */
+.izebuy-map{ margin:6px 0 24px; }
+.izebuy-map figcaption{ text-align:center; }
+
+/* Big image cards in a fixed two-column grid (shops / products) */
+.izebuy-items{ display:grid; grid-template-columns:repeat(2,1fr); gap:30px; margin:10px 0 14px; }
+.izebuy-item .it-cap{ margin-top:10px; }
+.izebuy-item .it-name{ font-weight:bold; font-size:19px; display:block; }
+.izebuy-item .it-text{ font-size:16px; }
+.izebuy-item .it-hours{ font-size:14px; font-style:italic; }
+
+/* Bulleted practical-tips list with a "›" marker */
+ul.izebuy-bullets{ list-style:none; padding:0; margin:0 0 20px; }
+ul.izebuy-bullets li{ position:relative; padding:11px 0 11px 30px; border-bottom:1px dotted; font-size:17px; }
+ul.izebuy-bullets li::before{ content:"\203A"; position:absolute; left:8px; top:9px; font-weight:bold; font-size:20px; }
+
+/* About-the-author block — emitted ONLY when the source post already has one */
+.izebuy-author{ display:flex; gap:24px; align-items:center; margin-top:46px; padding:24px 28px; border:1px solid; }
+.izebuy-author figure{ flex:0 0 120px; }
+.izebuy-author img{ height:120px; width:120px; object-fit:cover; border-radius:50%; }
+.izebuy-author h2{ border:none; margin:0 0 8px; padding:0; font-size:15px; }
+
+/* Responsive: single column on small screens */
+@media (max-width:760px){
+  .izebuy-post{ padding:28px 20px; }
+  .izebuy-hero{ flex-direction:column; }
+  .izebuy-toc{ flex-basis:auto; width:100%; box-sizing:border-box; }
+  .izebuy-figR,.izebuy-figL{ float:none; width:100%; margin:0 0 16px; }
+  .izebuy-items{ grid-template-columns:1fr; }
+  .izebuy-author{ flex-direction:column; text-align:center; }
+}
+
+</style>
+</head>
+<body>
+<article class="izebuy-post">
+<h1>Chirimba Market</h1>
+<nav class="izebuy-toc"><!-- [toc] shortcode --><p class="toc-title">Contents</p><ul><li><a href="#how-to-get-to-chirimba-market">How To Get To Chirimba Market</a></li><li><a href="#things-you-can-buy-at-chirimba-market">Things You Can Buy At Chirimba Market</a></li><li><a href="#shops-and-services-you-can-find-at-chirimba-market">Shops And Services You Can Find At Chirimba Market</a></li><li><a href="#final-review-of-the-chirimba-market">Final Review Of The Chirimba Market</a></li></ul></nav>
+<p>Chirimba Market resides in Blantyre, a few kilometres from Blantyre CBD. The market serves surrounding communities of Kamedza, Mbayani and Chapima.</p>
+<p>It's not known exactly when Chirimba market was established but locals say that it has been around for over 60 years.</p>
+<h2 id="how-to-get-to-chirimba-market">HOW TO GET TO CHIRIMBA MARKET</h2>
+<p>You can travel to Chirimba Market by minibus, taxi, or your own car.</p>
+<p>To get to the market by minibus from Blantyre CBD, you need to catch a bus from Kandodo bus stop in Blantyre heading to Chileka via M1 road and get off at Chirimba Bus stop.</p>
+<p>It takes approximately 15 minutes to get there and then it's only a 2 minute walk to the market. You should expect to pay K600 for a return minibus fare.</p>
+<p>If you decide to use a taxi, you should expect to pay K3,000 for return taxi fare, which takes about 10 minutes to get there.</p>
+<p>It is not advisable to use your own car as there is no secure parking at the market.</p>
+<figure class="izebuy-map"><iframe style="width:100%;height:380px;border:1px solid" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=CHIRIMBA%20MARKET%20malawi&amp;t=m&amp;z=10&amp;output=embed&amp;iwloc=near" title="%3$s" aria-label="%3$s"></iframe></figure>
+<h2 id="things-you-can-buy-at-chirimba-market">THINGS YOU CAN BUY AT CHIRIMBA MARKET</h2>
+<div class="izebuy-items">
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200830-WA0025.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Fresh Fruits and vegetables</span><span class="it-text">: Chirimba market is full of cheap fresh fruits and vegetables in different varieties. In fact, you can buy any type of fruits and vegetables there.</span></div></div>
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200830-WA0022.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Sweet Potatoes</span><span class="it-text">: Chirimba markets also has many traders selling fresh and good quality sweet potatoes.</span></div></div>
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200830-WA0036.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Live Chickens</span><span class="it-text">: When you think of buying cheap and good quality live chickens, think of Chirimba as it has many traders selling live chickens.</span></div></div>
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200830-WA0024.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Groceries</span><span class="it-text">: You can buy various types of groceries at Chirimba market as it has many traders owning grocery shops.</span></div></div>
+</div>
+<h2 id="shops-and-services-you-can-find-at-chirimba-market">SHOPS AND SERVICES YOU CAN FIND AT CHIRIMBA MARKET</h2>
+<h3>Services</h3>
+<p><b>Mills</b>: There are a few mills for milling maize, and all sorts of seeds you would like to have milled.</p>
+<p><b>Barbershops</b>: Chirimba market has many barbershops.</p>
+<p><b>Salons</b>: You can also find hair styling services at Chirimba market as it has many hair dressing salons.</p>
+<p><b>Tyre Fitting</b>: ; You can also get your vehicle tyres fitted and air refilling services at Chirimba market.</p>
+<h3>Shops</h3>
+<p>Here are a few shops and their opening times</p>
+<div class="izebuy-items">
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200830-WA0020.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Andres Fashion</span><span class="it-text">: They sell men and women’s clothes and are open from Monday to Saturday 8am to 6pm</span></div></div>
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200830-WA0021.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Chita's Shop</span><span class="it-text">: This is a grocery store, open from Monday to Sunday, 5am to 8pm</span></div></div>
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200830-WA0026.jpg" alt=""></figure><div class="it-cap"><span class="it-name">New Idea Hardware</span><span class="it-text">: They sell hardware products. They open Monday till Saturday from 8am to 6pm</span></div></div>
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200830-WA0027.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Two Princes Phone Accessories</span><span class="it-text">: They sell phone accessories such as chargers, USB cables, batteries and screen protectors. They open Monday to Saturday from 7am to 6pm</span></div></div>
+</div>
+<h2 id="final-review-of-the-chirimba-market">FINAL REVIEW OF THE CHIRIMBA MARKET</h2>
+<p><b>Price</b>: The prices in Chirimba market are the same as Mbayani Market, very cheap and reasonable. For this I rate it 5/5 on price.</p>
+<p><b>Cleanliness</b>: The market better kept and cleaned compared to nearby Mbayani Market. I give it a rating of 3/5 for cleanliness.</p>
+<div class="izebuy-author"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0004-300x300.jpg" alt="Author photo"></figure><div><h2>About the Author</h2><p>Ulemu matipula, is a freelance writer, based in Blantyre city, in Malawi. Apart from writing, he is also passionate about computers. He is currently studying Web Design at a local university. You can contact Ulemu by sending an email to <a href="mailto:info@izebuy.com" target="_blank" rel="noopener">info@izebuy.com</a></p></div></div>
+</article>
+</body>
+</html>

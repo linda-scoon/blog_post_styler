@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ndirande Main Market — izebuy (styled preview)</title>
+<style>
+body{margin:0;padding:40px 16px;}
+/* ==========================================================================
+   izebuy blog post — canonical scoped stylesheet  (the "gold standard")
+   --------------------------------------------------------------------------
+   Newspaper-style layout for a single market write-up.
+   STRUCTURE ONLY — deliberately NO colour declarations. Text and borders
+   inherit `currentColor` (black) and the live theme supplies any colour
+   through its own design tokens. The generator must never emit colour.
+
+   Everything is scoped under `.izebuy-post` so it cannot leak into the rest
+   of the WordPress theme. Load this once in the theme (recommended) rather
+   than inlining a <style> block in every post — that avoids depending on the
+   `unfiltered_html` capability when posting through the REST API.
+   ========================================================================== */
+
+.izebuy-post{ max-width:1140px; margin:0 auto; padding:52px 60px 44px;
+  font-family:Georgia,'Times New Roman',serif; line-height:1.7; font-size:18px; }
+
+/* H1 = centred masthead with a double underline (set from the post title) */
+.izebuy-post h1{ text-align:center; text-transform:uppercase; letter-spacing:3px;
+  font-size:46px; margin:0 0 28px; padding-bottom:16px; border-bottom:8px double; }
+
+/* Hero row: table of contents (left) + featured image (right) */
+.izebuy-hero{ display:flex; gap:32px; align-items:flex-start; margin-bottom:34px; }
+.izebuy-toc{ flex:0 0 280px; border:1px solid; padding:18px 20px; font-size:15px; line-height:2; }
+.izebuy-toc .toc-title{ text-transform:uppercase; letter-spacing:1px; font-size:12px;
+  font-weight:bold; margin:0 0 10px; border-bottom:1px solid; padding-bottom:7px; }
+.izebuy-toc ul{ margin:0; padding-left:18px; }
+.izebuy-toc a{ color:inherit; text-decoration:none; }
+.izebuy-featured{ flex:1; margin:0; }
+.izebuy-featured figcaption{ font-size:14px; font-style:italic; margin-top:8px; text-align:center; }
+
+/* H2 = uppercase section header with a single rule (each H2 is a contents entry) */
+.izebuy-post h2{ text-transform:uppercase; letter-spacing:1.5px; font-size:23px;
+  margin:48px 0 18px; padding-bottom:9px; border-bottom:2px solid; clear:both; }
+/* H3 = small-caps sub-heading with a left rule (the zones inside the walk-through) */
+.izebuy-post h3{ font-size:18px; font-variant:small-caps; letter-spacing:.5px;
+  margin:30px 0 14px; border-left:4px solid; padding-left:12px; }
+.izebuy-post p{ margin:0 0 16px; }
+
+/* Images are the content: large, never thumbnails. */
+.izebuy-post figure{ margin:0; }
+.izebuy-post figure img{ width:100%; height:auto; display:block; border:1px solid; }
+.izebuy-post figcaption{ font-size:13px; font-style:italic; margin-top:6px; }
+.izebuy-post .clear{ clear:both; }
+
+/* Float helpers for text-heavy sections (text wraps the image) */
+.izebuy-figR{ float:right; width:420px; margin:4px 0 14px 28px; }
+.izebuy-figL{ float:left;  width:420px; margin:4px 28px 14px 0; }
+
+/* The hand-drawn map — centrepiece of the walk-through, full content width */
+.izebuy-map{ margin:6px 0 24px; }
+.izebuy-map figcaption{ text-align:center; }
+
+/* Big image cards in a fixed two-column grid (shops / products) */
+.izebuy-items{ display:grid; grid-template-columns:repeat(2,1fr); gap:30px; margin:10px 0 14px; }
+.izebuy-item .it-cap{ margin-top:10px; }
+.izebuy-item .it-name{ font-weight:bold; font-size:19px; display:block; }
+.izebuy-item .it-text{ font-size:16px; }
+.izebuy-item .it-hours{ font-size:14px; font-style:italic; }
+
+/* Bulleted practical-tips list with a "›" marker */
+ul.izebuy-bullets{ list-style:none; padding:0; margin:0 0 20px; }
+ul.izebuy-bullets li{ position:relative; padding:11px 0 11px 30px; border-bottom:1px dotted; font-size:17px; }
+ul.izebuy-bullets li::before{ content:"\203A"; position:absolute; left:8px; top:9px; font-weight:bold; font-size:20px; }
+
+/* About-the-author block — emitted ONLY when the source post already has one */
+.izebuy-author{ display:flex; gap:24px; align-items:center; margin-top:46px; padding:24px 28px; border:1px solid; }
+.izebuy-author figure{ flex:0 0 120px; }
+.izebuy-author img{ height:120px; width:120px; object-fit:cover; border-radius:50%; }
+.izebuy-author h2{ border:none; margin:0 0 8px; padding:0; font-size:15px; }
+
+/* Responsive: single column on small screens */
+@media (max-width:760px){
+  .izebuy-post{ padding:28px 20px; }
+  .izebuy-hero{ flex-direction:column; }
+  .izebuy-toc{ flex-basis:auto; width:100%; box-sizing:border-box; }
+  .izebuy-figR,.izebuy-figL{ float:none; width:100%; margin:0 0 16px; }
+  .izebuy-items{ grid-template-columns:1fr; }
+  .izebuy-author{ flex-direction:column; text-align:center; }
+}
+
+</style>
+</head>
+<body>
+<article class="izebuy-post">
+<h1>Ndirande Main Market</h1>
+<nav class="izebuy-toc"><!-- [toc] shortcode --><p class="toc-title">Contents</p><ul><li><a href="#how-to-get-to-ndirande-main-market">How To Get To Ndirande Main Market</a></li><li><a href="#things-you-can-buy-at-ndirande-main-market">Things You Can Buy At Ndirande Main Market</a></li><li><a href="#shops-and-services-you-can-find-at-ndirande-main-market">Shops And Services You Can Find At Ndirande Main Market</a></li><li><a href="#meet-a-local-trader-from-ndirande-main-market">Meet A Local Trader From Ndirande Main Market</a></li><li><a href="#final-review-of-ndirande-main-market">Final Review Of Ndirande Main Market</a></li></ul></nav>
+<p>The Ndirande Main Market &nbsp;resides in the <a href="https://en.wikipedia.org/wiki/Southern_Region,_Malawi">southern region</a>&nbsp;of Malawi, some Kilometres from Blantyre CBD. It harbours a small river called Nasolo that originates from the Ndirande Hill and flows into the Mudi river.</p>
+<p>The market serves the surrounding local areas of Ndirande, Nyambadwe and Makhetha. It is not known when the market was established but local sources state that it has been around for over 40 years.</p>
+<p>Ndirande market is well known for its hardware and scrap metal businesses. The main proucts up for sale at this market are hardware products such as building materials, car parts and electronics .</p>
+<h2 id="how-to-get-to-ndirande-main-market">HOW TO GET TO NDIRANDE MAIN MARKET</h2>
+<p>You can travel to Ndirande main market by minibus, taxi, motorcycle, bicycle or by foot.</p>
+<p>To get to the market by minibus, you need to take a minibus from <a href="https://izebuy.com/blantyre-flea-market/">Blantyre CBD</a> minibus rank called Mibawa or Wenela Bus Depot following Magalasi road and drop at Ndirande Main Market stage near First Capital Bank</p>
+<p>It takes approximately 20 minutes to get there and it's only 2 minutes walk down the market, You should expect to pay about K800 return bus fare.</p>
+<p>If you decide to use private transportation, it takes about 5 minutes to get to the market from Blantyre town.</p>
+<p>The market is very close to the bus stage, and you won't walk far. If you think of using your own vehicle, be aware that parking a car there is at your own risk.</p>
+<figure class="izebuy-map"><iframe style="width:100%;height:380px;border:1px solid" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=ndirande%20main%20market&amp;t=m&amp;z=10&amp;output=embed&amp;iwloc=near" title="%3$s" aria-label="%3$s"></iframe></figure>
+<h2 id="things-you-can-buy-at-ndirande-main-market">THINGS YOU CAN BUY AT NDIRANDE MAIN MARKET</h2>
+<div class="izebuy-items">
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0016.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Building Materials</span><span class="it-text">: You can buy building materials from the market, from Nails, Tiles, Cement, Window and door frames, burglar bars, hammers, shovels, wheelbarrows, ceiling boards, etc.</span></div></div>
+</div>
+<figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0008.jpg" alt=""></figure>
+<div class="izebuy-items">
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0015.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Car Parts</span><span class="it-text">: There are several car part traders selling various car parts from Clutch plates, car oil, shock absorbers, rims, front and rear lens, brake pads, etc. You can find almost everything required to fix a car.</span></div></div>
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/timbers.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Timber</span><span class="it-text">: You can also find wooden planks for roofing and wooden crates</span></div></div>
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0013.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Wood Work & Furniture</span><span class="it-text">: There are lots of furniture traders selling Sofas, Dining tables, Beds, Coffins, School Desks, etc. You can also order custom made furniture.</span></div></div>
+</div>
+<h2 id="shops-and-services-you-can-find-at-ndirande-main-market">SHOPS AND SERVICES YOU CAN FIND AT NDIRANDE MAIN MARKET</h2>
+<h3>Services</h3>
+<p><b>Motor Vehicle Repairs</b>: J3 Motors is located in old People's Store Building. They open Monday till Sunday from 8am to 6pm</p>
+<p><b>Fueling station</b>: There is Energem fueling station located near opposite minibus stop from Limbe</p>
+<p><b>Banking service</b>: There's First Capital Bank located near minibus stage from Blantyre CBD which operates from Monday to Friday from 8am to 3pm and Saturday from 8am to 11am. And there's also one NBS bank ATM located at Energem fueling station store which operates 24/7.</p>
+<p><b>Communication</b>: There's a Post office which is located near J3 Motors (Old PTC)</p>
+<p><b>Computer and Phone repairing</b>: There are several computer repairing experts, some of them are CyberTech Computers and Usherio Computers</p>
+<p><b>Health Care</b>: There is also Ndirande Hospital which is located near the market</p>
+<p><b>Other Services</b></p>
+<ul><li>Hairdressing and Boutique</li><li>Food Eateries</li></ul>
+<h3>Shops</h3>
+<p>Here are a few shops and their opening times</p>
+<figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0012.jpg" alt=""></figure>
+<p><b>Teuna Investment</b>: They sell groceries and are open from Monday to Saturday - 6am to 8pm</p>
+<div class="izebuy-items">
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0011.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Bonongwe Coffin Workshop</span><span class="it-text">: They make and sell coffins, open Monday till Sunday from 8am to 5pm</span></div></div>
+</div>
+<h2 id="meet-a-local-trader-from-ndirande-main-market">MEET A LOCAL TRADER FROM NDIRANDE MAIN MARKET</h2>
+<figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0010.jpg" alt=""></figure>
+<p>Mr Matemba is a local trader has sells electronics at the market. He was kind enough to answer a few questions.</p>
+<p><b>Asked question</b>: When was Ndirande main market established?</p>
+<p><b>Answer</b>: I don't know exact date but I know it existed when in Kamudzu Banda era</p>
+<p><b>Asked</b>: <strong>question</strong>: How long have you been here in Ndirande market</p>
+<p><b>Answer</b>: for about 20 years now</p>
+<p><b>Asked question</b>: How does this corona pandemic effected yours sales?</p>
+<p><b>Answer</b>: It has effected a lot, before it, I was able to make a total sales of K50,000 each day but now it has been reduced to K20,000 to K30,000 each day</p>
+<p><b>Asked</b>: <strong>question</strong>: izebuy is an online marketing website which advertise people's products and services for free, would you like your products to be listed on izebuy?</p>
+<p><b>Answer</b>: I wish I could but I'm not familiar with internet, and i don't use internet enabled phone</p>
+<p><b>Asked question</b>: how can you describe Ndirande main market according to your experience?</p>
+<p><b>Answer</b>: Ndirande market is and will always be my favorite market ever, because this is the market behind my success, and Ndirande market traders and communities around are so friendly.</p>
+<h2 id="final-review-of-ndirande-main-market">FINAL REVIEW OF NDIRANDE MAIN MARKET</h2>
+<p><b>Cleanliness</b>: This market is well kept and clean compared to nearby Safarao Market</p>
+<p><b>Price</b>: Buying fruits and vegetables is a bit expensive compared to nearby Makata market</p>
+<div class="izebuy-author"><div><h2>About the Author</h2><p><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0009-300x291.jpg" alt="" width="141" height="137" />Ulemu matipula, is a freelance writer, based in Blantyre city, in Malawi. Apart from writing, he is also passionate about computers. He is currently studying Web Design at a local university. You can contact Ulemu by sending an email to <a href="mailto:info@izebuy.com" target="_blank" rel="noopener">info@izebuy.com</a></p></div></div>
+</article>
+</body>
+</html>

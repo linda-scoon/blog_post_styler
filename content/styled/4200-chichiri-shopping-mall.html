@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chichiri Shopping Mall — izebuy (styled preview)</title>
+<style>
+body{margin:0;padding:40px 16px;}
+/* ==========================================================================
+   izebuy blog post — canonical scoped stylesheet  (the "gold standard")
+   --------------------------------------------------------------------------
+   Newspaper-style layout for a single market write-up.
+   STRUCTURE ONLY — deliberately NO colour declarations. Text and borders
+   inherit `currentColor` (black) and the live theme supplies any colour
+   through its own design tokens. The generator must never emit colour.
+
+   Everything is scoped under `.izebuy-post` so it cannot leak into the rest
+   of the WordPress theme. Load this once in the theme (recommended) rather
+   than inlining a <style> block in every post — that avoids depending on the
+   `unfiltered_html` capability when posting through the REST API.
+   ========================================================================== */
+
+.izebuy-post{ max-width:1140px; margin:0 auto; padding:52px 60px 44px;
+  font-family:Georgia,'Times New Roman',serif; line-height:1.7; font-size:18px; }
+
+/* H1 = centred masthead with a double underline (set from the post title) */
+.izebuy-post h1{ text-align:center; text-transform:uppercase; letter-spacing:3px;
+  font-size:46px; margin:0 0 28px; padding-bottom:16px; border-bottom:8px double; }
+
+/* Hero row: table of contents (left) + featured image (right) */
+.izebuy-hero{ display:flex; gap:32px; align-items:flex-start; margin-bottom:34px; }
+.izebuy-toc{ flex:0 0 280px; border:1px solid; padding:18px 20px; font-size:15px; line-height:2; }
+.izebuy-toc .toc-title{ text-transform:uppercase; letter-spacing:1px; font-size:12px;
+  font-weight:bold; margin:0 0 10px; border-bottom:1px solid; padding-bottom:7px; }
+.izebuy-toc ul{ margin:0; padding-left:18px; }
+.izebuy-toc a{ color:inherit; text-decoration:none; }
+.izebuy-featured{ flex:1; margin:0; }
+.izebuy-featured figcaption{ font-size:14px; font-style:italic; margin-top:8px; text-align:center; }
+
+/* H2 = uppercase section header with a single rule (each H2 is a contents entry) */
+.izebuy-post h2{ text-transform:uppercase; letter-spacing:1.5px; font-size:23px;
+  margin:48px 0 18px; padding-bottom:9px; border-bottom:2px solid; clear:both; }
+/* H3 = small-caps sub-heading with a left rule (the zones inside the walk-through) */
+.izebuy-post h3{ font-size:18px; font-variant:small-caps; letter-spacing:.5px;
+  margin:30px 0 14px; border-left:4px solid; padding-left:12px; }
+.izebuy-post p{ margin:0 0 16px; }
+
+/* Images are the content: large, never thumbnails. */
+.izebuy-post figure{ margin:0; }
+.izebuy-post figure img{ width:100%; height:auto; display:block; border:1px solid; }
+.izebuy-post figcaption{ font-size:13px; font-style:italic; margin-top:6px; }
+.izebuy-post .clear{ clear:both; }
+
+/* Float helpers for text-heavy sections (text wraps the image) */
+.izebuy-figR{ float:right; width:420px; margin:4px 0 14px 28px; }
+.izebuy-figL{ float:left;  width:420px; margin:4px 28px 14px 0; }
+
+/* The hand-drawn map — centrepiece of the walk-through, full content width */
+.izebuy-map{ margin:6px 0 24px; }
+.izebuy-map figcaption{ text-align:center; }
+
+/* Big image cards in a fixed two-column grid (shops / products) */
+.izebuy-items{ display:grid; grid-template-columns:repeat(2,1fr); gap:30px; margin:10px 0 14px; }
+.izebuy-item .it-cap{ margin-top:10px; }
+.izebuy-item .it-name{ font-weight:bold; font-size:19px; display:block; }
+.izebuy-item .it-text{ font-size:16px; }
+.izebuy-item .it-hours{ font-size:14px; font-style:italic; }
+
+/* Bulleted practical-tips list with a "›" marker */
+ul.izebuy-bullets{ list-style:none; padding:0; margin:0 0 20px; }
+ul.izebuy-bullets li{ position:relative; padding:11px 0 11px 30px; border-bottom:1px dotted; font-size:17px; }
+ul.izebuy-bullets li::before{ content:"\203A"; position:absolute; left:8px; top:9px; font-weight:bold; font-size:20px; }
+
+/* About-the-author block — emitted ONLY when the source post already has one */
+.izebuy-author{ display:flex; gap:24px; align-items:center; margin-top:46px; padding:24px 28px; border:1px solid; }
+.izebuy-author figure{ flex:0 0 120px; }
+.izebuy-author img{ height:120px; width:120px; object-fit:cover; border-radius:50%; }
+.izebuy-author h2{ border:none; margin:0 0 8px; padding:0; font-size:15px; }
+
+/* Responsive: single column on small screens */
+@media (max-width:760px){
+  .izebuy-post{ padding:28px 20px; }
+  .izebuy-hero{ flex-direction:column; }
+  .izebuy-toc{ flex-basis:auto; width:100%; box-sizing:border-box; }
+  .izebuy-figR,.izebuy-figL{ float:none; width:100%; margin:0 0 16px; }
+  .izebuy-items{ grid-template-columns:1fr; }
+  .izebuy-author{ flex-direction:column; text-align:center; }
+}
+
+</style>
+</head>
+<body>
+<article class="izebuy-post">
+<h1>Chichiri Shopping Mall</h1>
+<nav class="izebuy-toc"><!-- [toc] shortcode --><p class="toc-title">Contents</p><ul><li><a href="#how-to-get-to-chichiri-shopping-mall">How To Get To Chichiri Shopping Mall</a></li><li><a href="#things-you-can-buy-at-chichiri-shopping-mall">Things You Can Buy At Chichiri Shopping Mall</a></li><li><a href="#shops-and-services-you-can-find-at-chichiri-shopping-mall">Shops And Services You Can Find At Chichiri Shopping Mall</a></li><li><a href="#final-review-of-the-chichiri-shopping-mall">Final Review Of The Chichiri Shopping Mall</a></li></ul></nav>
+<p>Chichiri shopping mall resides in <a href="https://en.wikipedia.org/wiki/Blantyre">Blantyre</a> a few kilometres from <a href="https://en.wikipedia.org/wiki/Kamuzu_Stadium">Kamudzu stadium. </a></p>
+<p>It offers renting space for various types of businesses ranging from retail shops, mobile phone companies, restaurants, banks, and many other stores.</p>
+<h2 id="how-to-get-to-chichiri-shopping-mall">HOW TO GET TO CHICHIRI SHOPPING MALL</h2>
+<p>You can travel to Chichiri shopping mall by minibus, taxi, or your own car.</p>
+<p>To get to the mall by minibus from <a href="https://izebuy.com/blantyre-flea-market/">Blantyre city</a>, you need to catch a bus from Mibawa bus rank in Blantyre heading to Limbe via Chipembele highway and get off at Chichiri shopping mall bus stop close to the stadium.</p>
+<p>It takes approximately 15 minutes to get there and then it's only 2 minutes walk to the mall. You should expect to pay K1,000 for a return minibus fare.</p>
+<p>If you decide to use a taxi, it would take you about 10 minutes to get there and you should expect to pay K3,000 for a return taxi fare.</p>
+<p>There is a big parking area if you decide to use your own car but be aware that parking a car there is at your own risk.</p>
+<figure class="izebuy-map"><iframe style="width:100%;height:380px;border:1px solid" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=chichiri%20shopping%20mall&amp;t=m&amp;z=10&amp;output=embed&amp;iwloc=near" title="%3$s" aria-label="%3$s"></iframe></figure>
+<h2 id="things-you-can-buy-at-chichiri-shopping-mall">THINGS YOU CAN BUY AT CHICHIRI SHOPPING MALL</h2>
+<div class="izebuy-items">
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0006.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Agriculture Products</span><span class="it-text">: There is a shop that sells Agricultural products ranging from Pesticides, seeds, sprayers etc.</span></div></div>
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0005.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Clothes</span><span class="it-text">: You can find kids, women and mens clothes in a couple of stores .</span></div></div>
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0001.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Groceries & Electronics</span><span class="it-text">: You can buy various types of groceries in</span></div></div>
+</div>
+<h2 id="shops-and-services-you-can-find-at-chichiri-shopping-mall">SHOPS AND SERVICES YOU CAN FIND AT CHICHIRI SHOPPING MALL</h2>
+<h3>Services</h3>
+<p><b>Food</b>: Places to eat include Kips African diner and Chicken Cottage which serve chips, ice creams and other food.</p>
+<p><b>Banking Services</b>: There is a National Bank branch and FDH Bank branch but you can also find ATM's for National Bank of Malawi, NBS Bank and Standard Bank</p>
+<p><b>Dentist</b>: Hope Dental care</p>
+<p><b>Entertainment</b>: cine city cinema</p>
+<p><b>Other services</b></p>
+<ul><li>Puma filling station, which also has an express shop</li></ul>
+<h3>Shops</h3>
+<p><b>Shoprite</b>: Shoprite is a grocery store where you can find all sorts of groceries from fresh fruits and vegetables, toiletries and products from their bakery.</p>
+<p><b>Pep store</b>: Pep is a clothes and accessories store that sells baby clothes and utensils as well as men's, women's and children's clothes.</p>
+<p><b>Game</b>: Game is a consumer electronics store that sells ( laptops, phones, home appliances, cameras), some groceries and toiletries. Sports equipment, beddings and bags/suitcases.</p>
+<p><b>BookShop</b>: The shopping mall also contains a bookshop.</p>
+<div class="izebuy-items">
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0003.jpg" alt=""></figure><div class="it-cap"><span class="it-name">MotherCare</span><span class="it-text">: They sell baby and children accessories. Open from Monday to Saturday 8am to 4pm</span></div></div>
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0002.jpg" alt=""></figure><div class="it-cap"><span class="it-name">McTina Boutique</span><span class="it-text">: They sell womens handbags, shoes and make-up. Open weekdays from 8am to 4pm</span></div></div>
+<div class="izebuy-item"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0006.jpg" alt=""></figure><div class="it-cap"><span class="it-name">Agri-Holt</span><span class="it-text">: They sell, pesticides, seeds and sprayers. Open Monday till Sunday from 8am to 4pm</span></div></div>
+</div>
+<h2 id="final-review-of-the-chichiri-shopping-mall">FINAL REVIEW OF THE CHICHIRI SHOPPING MALL</h2>
+<p><b>Security</b>: The market is well secured with many guards and CCTV cameras. I rate it 5/5</p>
+<p><b>Cleanliness</b>: The mall is also well kept and cleaned. On cleanliness I rate it 5/5</p>
+<div class="izebuy-author"><figure><img src="https://izebuy.com/wp-content/uploads/2020/08/IMG-20200812-WA0004-300x300.jpg" alt="Author photo"></figure><div><h2>About the Author</h2><p>Ulemu matipula, is a freelance writer, based in Blantyre city, in Malawi. Apart from writing, he is also passionate about computers. He is currently studying Web Design at a local university. You can contact Ulemu by sending an email to <a href="mailto:info@izebuy.com" target="_blank" rel="noopener">info@izebuy.com</a></p></div></div>
+</article>
+</body>
+</html>
