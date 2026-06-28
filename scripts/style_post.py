@@ -158,9 +158,12 @@ def render_section_body(blocks):
 
         if kind == "iframe":                  # the Google map, kept in place
             flush_pending(); flush_grid()
-            ifr = re.sub(r'\s(?:width|height)="[^"]*"', "", val)
+            # drop width/height and the leftover sprintf placeholders
+            # (title="%3$s" / aria-label="%3$s") which can fatal a PHP plugin on save
+            ifr = re.sub(r'\s(?:width|height|title|aria-label)="[^"]*"', "", val)
             ifr = ifr.replace("<iframe",
-                              '<iframe style="width:100%;height:380px;border:1px solid"', 1)
+                              '<iframe title="Location map" loading="lazy" '
+                              'style="width:100%;height:380px;border:1px solid"', 1)
             out.append(f'<figure class="izebuy-map">{ifr}</figure>')
             continue
 
