@@ -20,6 +20,7 @@ WordPress site, plus the field method and writer guidance behind it.
 | Folder | Contents |
 | --- | --- |
 | `Docs/` | The written specs and guidance (see below). |
+| `styles/` | `izebuy-post.css` — the canonical scoped stylesheet (the locked "gold standard" design, structure only, no colour). |
 | `examples/` | The test-fixture article (`.docx`) and its styled HTML output. Used to develop and verify the generator. |
 | `mockups/` | Design mockups / prototypes of the styled post layout. |
 
@@ -30,6 +31,8 @@ WordPress site, plus the field method and writer guidance behind it.
   is an earlier wording ("What we're doing…") than the `.docx` above ("This is a
   commission…"). Kept as the editable Markdown source; reconcile the two when
   convenient.*
+- **`design-spec.md`** — the locked house style (gold standard, no colour). Single source of truth for how every post must look.
+- **`reformatting-plan.md`** — plan + status for reformatting the existing live posts into the house style.
 - **`marketmappingmethod.md`** — how izebuy maps a market (the field method).
 - **`03generatorbuildprompt.md`** — the build prompt / spec for the HTML generator tool.
 - **`sessionexport.md`** — design log of decisions made so far.
