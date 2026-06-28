@@ -1,0 +1,46 @@
+name: Fetch blog posts from WordPress
+
+# Manual trigger. Pulls all blog posts from the izebuy WordPress site via the
+# REST API and commits them under content/ so they can be reformatted.
+on:
+  workflow_dispatch:
+    inputs:
+      status:
+        description: "Post statuses to fetch (comma-separated)"
+        default: "publish,draft"
+        required: false
+
+permissions:
+  contents: write   # allow the job to commit the fetched posts back
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Fetch posts from WordPress
+        env:
+          WP_BASE_URL: ${{ secrets.WP_BASE_URL }}
+          WP_USERNAME: ${{ secrets.WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_STATUS: ${{ inputs.status }}
+        run: python3 scripts/fetch_posts.py
+
+      - name: Commit fetched posts
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/
+          if git diff --staged --quiet; then
+            echo "No changes — content already up to date."
+          else
+            git commit -m "Fetch blog posts from WordPress [skip ci]"
+            git push origin HEAD:${{ github.ref_name }}
+          fi

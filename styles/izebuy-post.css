@@ -1,0 +1,80 @@
+/* ==========================================================================
+   izebuy blog post — canonical scoped stylesheet  (the "gold standard")
+   --------------------------------------------------------------------------
+   Newspaper-style layout for a single market write-up.
+   STRUCTURE ONLY — deliberately NO colour declarations. Text and borders
+   inherit `currentColor` (black) and the live theme supplies any colour
+   through its own design tokens. The generator must never emit colour.
+
+   Everything is scoped under `.izebuy-post` so it cannot leak into the rest
+   of the WordPress theme. Load this once in the theme (recommended) rather
+   than inlining a <style> block in every post — that avoids depending on the
+   `unfiltered_html` capability when posting through the REST API.
+   ========================================================================== */
+
+.izebuy-post{ max-width:1140px; margin:0 auto; padding:52px 60px 44px;
+  font-family:Georgia,'Times New Roman',serif; line-height:1.7; font-size:18px; }
+
+/* H1 = centred masthead with a double underline (set from the post title) */
+.izebuy-post h1{ text-align:center; text-transform:uppercase; letter-spacing:3px;
+  font-size:46px; margin:0 0 28px; padding-bottom:16px; border-bottom:8px double; }
+
+/* Hero row: table of contents (left) + featured image (right) */
+.izebuy-hero{ display:flex; gap:32px; align-items:flex-start; margin-bottom:34px; }
+.izebuy-toc{ flex:0 0 280px; border:1px solid; padding:18px 20px; font-size:15px; line-height:2; }
+.izebuy-toc .toc-title{ text-transform:uppercase; letter-spacing:1px; font-size:12px;
+  font-weight:bold; margin:0 0 10px; border-bottom:1px solid; padding-bottom:7px; }
+.izebuy-toc ul{ margin:0; padding-left:18px; }
+.izebuy-toc a{ color:inherit; text-decoration:none; }
+.izebuy-featured{ flex:1; margin:0; }
+.izebuy-featured figcaption{ font-size:14px; font-style:italic; margin-top:8px; text-align:center; }
+
+/* H2 = uppercase section header with a single rule (each H2 is a contents entry) */
+.izebuy-post h2{ text-transform:uppercase; letter-spacing:1.5px; font-size:23px;
+  margin:48px 0 18px; padding-bottom:9px; border-bottom:2px solid; clear:both; }
+/* H3 = small-caps sub-heading with a left rule (the zones inside the walk-through) */
+.izebuy-post h3{ font-size:18px; font-variant:small-caps; letter-spacing:.5px;
+  margin:30px 0 14px; border-left:4px solid; padding-left:12px; }
+.izebuy-post p{ margin:0 0 16px; }
+
+/* Images are the content: large, never thumbnails. */
+.izebuy-post figure{ margin:0; }
+.izebuy-post figure img{ width:100%; height:auto; display:block; border:1px solid; }
+.izebuy-post figcaption{ font-size:13px; font-style:italic; margin-top:6px; }
+.izebuy-post .clear{ clear:both; }
+
+/* Float helpers for text-heavy sections (text wraps the image) */
+.izebuy-figR{ float:right; width:420px; margin:4px 0 14px 28px; }
+.izebuy-figL{ float:left;  width:420px; margin:4px 28px 14px 0; }
+
+/* The hand-drawn map — centrepiece of the walk-through, full content width */
+.izebuy-map{ margin:6px 0 24px; }
+.izebuy-map figcaption{ text-align:center; }
+
+/* Big image cards in a fixed two-column grid (shops / products) */
+.izebuy-items{ display:grid; grid-template-columns:repeat(2,1fr); gap:30px; margin:10px 0 14px; }
+.izebuy-item .it-cap{ margin-top:10px; }
+.izebuy-item .it-name{ font-weight:bold; font-size:19px; display:block; }
+.izebuy-item .it-text{ font-size:16px; }
+.izebuy-item .it-hours{ font-size:14px; font-style:italic; }
+
+/* Bulleted practical-tips list with a "›" marker */
+ul.izebuy-bullets{ list-style:none; padding:0; margin:0 0 20px; }
+ul.izebuy-bullets li{ position:relative; padding:11px 0 11px 30px; border-bottom:1px dotted; font-size:17px; }
+ul.izebuy-bullets li::before{ content:"\203A"; position:absolute; left:8px; top:9px; font-weight:bold; font-size:20px; }
+
+/* About-the-author block — emitted ONLY when the source post already has one */
+.izebuy-author{ display:flex; gap:24px; align-items:center; margin-top:46px; padding:24px 28px; border:1px solid; }
+.izebuy-author figure{ flex:0 0 120px; }
+.izebuy-author img{ height:120px; width:120px; object-fit:cover; border-radius:50%; }
+.izebuy-author h2{ border:none; margin:0 0 8px; padding:0; font-size:15px; }
+
+/* Responsive: single column on small screens */
+@media (max-width:760px){
+  .izebuy-post{ padding:28px 20px; }
+  .izebuy-hero{ flex-direction:column; }
+  .izebuy-toc{ flex-basis:auto; width:100%; box-sizing:border-box; }
+  .izebuy-figR,.izebuy-figL{ float:none; width:100%; margin:0 0 16px; }
+  .izebuy-items{ grid-template-columns:1fr; }
+  .izebuy-author{ flex-direction:column; text-align:center; }
+}
