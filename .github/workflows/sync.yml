@@ -1,22 +1,16 @@
 name: Sync — fetch, style & publish
 
 # ONE button that runs the whole pipeline end to end:
-#   fetch (with real cover images) -> style -> publish to WordPress
-# Safe by default: it is a DRY RUN (no publishing) unless you set commit = true.
+#   fetch (with real cover images) -> style -> publish all market posts
+# Safe by default: it is a DRY RUN (nothing written to the site) unless you
+# tick "commit".
 on:
   workflow_dispatch:
     inputs:
       commit:
-        description: "Publish to the live site? false = dry run (fetch + style only, nothing written to the site)"
+        description: "Publish to the live site? Leave unticked for a safe dry run."
         type: boolean
         default: false
-      only:
-        description: "Single post id (e.g. 4458 for Mbayani). Blank = all market posts."
-        required: false
-  # To make this fully automatic, uncomment the schedule below (runs daily 06:00 UTC).
-  # A scheduled run uses commit=false (safe: it refreshes the repo but does NOT publish).
-  # schedule:
-  #   - cron: "0 6 * * *"
 
 permissions:
   contents: write
@@ -40,15 +34,13 @@ jobs:
       - name: Style all market posts
         run: python3 scripts/style_post.py --all
 
-      - name: Publish (dry run unless commit = true)
+      - name: Publish all market posts (dry run unless commit = true)
         env:
           WP_BASE_URL: ${{ secrets.WP_BASE_URL }}
           WP_USERNAME: ${{ secrets.WP_USERNAME }}
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
           DRY_RUN: ${{ inputs.commit == true && 'false' || 'true' }}
-        run: |
-          python3 scripts/publish_posts.py --mode update \
-            ${{ inputs.only != '' && format('--only {0}', inputs.only) || '' }}
+        run: python3 scripts/publish_posts.py --mode update
 
       - name: Commit refreshed content + backups
         run: |
