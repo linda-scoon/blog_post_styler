@@ -49,6 +49,14 @@ _spec.loader.exec_module(style_post)
 MARKET_IDS = style_post.MARKET_IDS
 
 
+def with_inline_css(article):
+    """Embed the scoped stylesheet in the post so it is styled on the live site
+    without needing any theme changes. The CSS is scoped to .izebuy-post."""
+    with open(style_post.CSS_PATH, encoding="utf-8") as f:
+        css = f.read()
+    return f"<style>\n{css}\n</style>\n{article}"
+
+
 def env(name, required=True, default=None):
     val = os.environ.get(name, default)
     if required and not val:
@@ -103,12 +111,8 @@ def main():
             print(f"  [{pid}] no fetched post found — skipping")
             continue
         post, article = style_post.convert(os.path.join(RAW, fn))
+        wp_html = with_inline_css(article)
         label = post["title"][:40]
-
-        if 'class="ph"' in article:
-            print(f"  [{pid}] {label:42} SKIPPED — cover image is still a placeholder. "
-                  f"Re-run the fetch first.")
-            continue
 
         if not commit:
             print(f"  [{pid}] {label:42} -> WOULD {'create draft' if args.mode=='draft-copy' else 'update in place'}")
@@ -118,7 +122,7 @@ def main():
         try:
             if args.mode == "draft-copy":
                 new = request("POST", f"{base}/wp-json/wp/v2/posts", auth,
-                              {"title": post["title"], "content": article, "status": "draft"})
+                              {"title": post["title"], "content": wp_html, "status": "draft"})
                 print(f"  [{pid}] {label:42} -> created draft {new.get('id')}: {new.get('link')}")
             else:
                 # back up the live content first
@@ -129,7 +133,7 @@ def main():
                               f, indent=2, ensure_ascii=False)
                 # send ONLY the content — don't re-send status (avoids re-firing
                 # publish-transition hooks; the post keeps its current status)
-                request("POST", f"{base}/wp-json/wp/v2/posts/{pid}", auth, {"content": article})
+                request("POST", f"{base}/wp-json/wp/v2/posts/{pid}", auth, {"content": wp_html})
                 print(f"  [{pid}] {label:42} -> updated in place; backup saved")
             ok.append(pid)
         except ApiError as e:

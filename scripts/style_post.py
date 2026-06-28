@@ -230,24 +230,11 @@ def build_article(title, blocks, cover=None):
         else:
             current["blocks"].append((kind, val))
 
-    # Hero: contents (left) + cover image (right). The cover is the post's
-    # WordPress Featured Image; if we don't have its URL yet, leave a marked
-    # placeholder so the layout is visible.
-    if cover:
-        cover_fig = (f'<figure class="izebuy-featured">'
-                     f'<img src="{html.escape(cover)}" alt="{html.escape(title)}">'
-                     f"<figcaption>{html.escape(title)}</figcaption></figure>")
-    else:
-        cover_fig = ('<figure class="izebuy-featured">'
-                     '<div class="ph" style="min-height:300px">Cover image — the '
-                     f'WordPress Featured Image for &ldquo;{html.escape(title)}&rdquo;'
-                     "</div></figure>")
-
+    # NO cover image in the body: the WordPress theme already shows the post's
+    # Featured Image at the top, so adding one here just duplicates it. The body
+    # opens with the masthead title and the [toc] contents box.
     parts = [f"<h1>{title}</h1>",
-             '<div class="izebuy-hero">',
-             '<nav class="izebuy-toc">[toc]</nav>',
-             cover_fig,
-             "</div>"]
+             '<nav class="izebuy-toc">[toc]</nav>']
     if intro:
         parts.append(render_section_body(intro))
     for s in sections:
