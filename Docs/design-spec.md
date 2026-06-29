@@ -51,7 +51,7 @@ were consolidated here.) Locked to the **"gold standard"** design
   sections where text wraps the image. Follow with `<div class="clear"></div>`.
 - **Bulleted list** — `ul.izebuy-bullets` (custom "›" marker).
 - **"Golden nugget"** — an inline tip, `<b>Golden nugget:</b>` leading a paragraph.
-- **About-the-author** — `.izebuy-author`: a **small, centred card** (max ~560px,
+- **About-the-author** — `.izebuy-author`: a **small, left-aligned card** (max ~560px,
   not full width) with the author photo (round), a light neutral background, and
   rounded border. Conditional (see hard rules).
 
