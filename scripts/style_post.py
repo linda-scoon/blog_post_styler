@@ -121,9 +121,14 @@ def tokenize(content):
     return blocks
 
 
+def figure_html(src, alt):
+    cap = f"<figcaption>{html.escape(alt)}</figcaption>" if alt else ""
+    return f'<figure><img src="{src}" alt="{html.escape(alt)}">{cap}</figure>'
+
+
 def render_section_body(blocks):
     """Render the blocks inside one section, preserving all text."""
-    out, grid = [], []
+    out, grid, gallery = [], [], []
     pending = None   # a strong-labelled paragraph awaiting an image
 
     def flush_grid():
@@ -131,9 +136,21 @@ def render_section_body(blocks):
             out.append('<div class="izebuy-items">\n' + "\n".join(grid) + "\n</div>")
             grid.clear()
 
+    def flush_gallery():
+        # One stray image stays a single large figure; a run of them becomes a
+        # balanced gallery so image-heavy posts don't turn into a giant column.
+        if len(gallery) == 1:
+            out.append(figure_html(*gallery[0]))
+        elif gallery:
+            cells = "\n".join(figure_html(src, alt) for src, alt in gallery)
+            out.append('<div class="izebuy-gallery">\n' + cells + "\n</div>")
+        gallery.clear()
+
     def flush_pending():
         nonlocal pending
         if pending:
+            # any cards/images that came before this label are emitted first
+            flush_grid(); flush_gallery()
             name, rest = pending
             out.append(f"<p><b>{name}</b>{(' ' + rest) if rest else ''}</p>")
             pending = None
@@ -142,6 +159,7 @@ def render_section_body(blocks):
         if kind == "img":
             src, alt = val
             if pending:                       # label + image = an item card
+                flush_gallery()               # standalone images before it come first
                 name, rest = pending
                 grid.append(
                     '<div class="izebuy-item"><figure>'
@@ -150,14 +168,13 @@ def render_section_body(blocks):
                     f'<span class="it-text">{rest}</span></div></div>'
                 )
                 pending = None
-            else:
-                flush_grid()
-                cap = f"<figcaption>{html.escape(alt)}</figcaption>" if alt else ""
-                out.append(f'<figure><img src="{src}" alt="{html.escape(alt)}">{cap}</figure>')
+            else:                             # no label: collect into the gallery
+                flush_grid()                  # close any open card run first
+                gallery.append((src, alt))
             continue
 
         if kind == "iframe":                  # the Google map, kept in place
-            flush_pending(); flush_grid()
+            flush_pending(); flush_grid(); flush_gallery()
             # drop width/height and the leftover sprintf placeholders
             # (title="%3$s" / aria-label="%3$s") which can fatal a PHP plugin on save
             ifr = re.sub(r'\s(?:width|height|title|aria-label)="[^"]*"', "", val)
@@ -181,7 +198,7 @@ def render_section_body(blocks):
             continue
 
         # genuine non-card block: ends any run of cards
-        flush_pending(); flush_grid()
+        flush_pending(); flush_grid(); flush_gallery()
         if kind == "h4":
             out.append(f"<h3>{collapse_ws(text_only(val))}</h3>")
         elif kind in ("ul", "ol"):
@@ -192,7 +209,7 @@ def render_section_body(blocks):
                 out.append('<nav class="izebuy-toc">[toc]</nav>')
             elif text_only(inner):
                 out.append(f"<p>{inner}</p>")
-    flush_pending(); flush_grid()
+    flush_pending(); flush_grid(); flush_gallery()
     return "\n".join(out)
 
 

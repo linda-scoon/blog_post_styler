@@ -45,6 +45,14 @@ were consolidated here.) Locked to the **"gold standard"** design
   own line) and `.it-text` beneath. **No leading colon** before the description.
 - **Bold-lead items** (a labelled item with no photo, e.g. services) → a paragraph
   `<p><b>Name</b> description</p>` — again **no colon** after the name.
+- **Standalone image** (a photo the writer dropped in with no item label) — a
+  plain `<figure>`. Shown large but **height-capped (~560px) and centred** so a
+  tall portrait shot can't tower over the page; aspect ratio is preserved (never
+  cropped).
+- **Image gallery** — `.izebuy-gallery`: when **two or more standalone images sit
+  back-to-back**, they flow into a balanced auto-fitting grid (uniform 4:3 tiles)
+  instead of stacking into one giant column. This is what keeps image-heavy posts
+  looking good. A lone standalone image stays a single large figure.
 - **The map** — `figure.izebuy-map`, full content width, kept where the writer put
   it (existing posts embed a Google map; that's fine).
 - **Floated figures** — `.izebuy-figR` / `.izebuy-figL` (420px) for text-heavy
