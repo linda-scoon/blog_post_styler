@@ -3,19 +3,23 @@
     "id": 3013,
     "slug": "grow-your-business-in-malawi",
     "title": "How Understanding Market Efficiency Can Help You Grow Your Business in Malawi",
-    "status": "publish",
-    "link": "https://izebuy.com/grow-your-business-in-malawi/",
-    "chars": 3880,
-    "flags": []
+    "status": "draft",
+    "link": "https://izebuy.com/?p=3013",
+    "chars": 3814,
+    "flags": [
+      "preserved-original"
+    ]
   },
   {
     "id": 3653,
     "slug": "earn-money-online-in-malawi",
     "title": "How Can You Earn Money Online in Malawi",
-    "status": "publish",
-    "link": "https://izebuy.com/earn-money-online-in-malawi/",
-    "chars": 13958,
-    "flags": []
+    "status": "draft",
+    "link": "https://izebuy.com/?p=3653",
+    "chars": 13606,
+    "flags": [
+      "preserved-original"
+    ]
   },
   {
     "id": 4143,
@@ -23,8 +27,10 @@
     "title": "Ndirande Main Market",
     "status": "publish",
     "link": "https://izebuy.com/ndirande-main-market/",
-    "chars": 7651,
-    "flags": []
+    "chars": 7735,
+    "flags": [
+      "preserved-original"
+    ]
   },
   {
     "id": 4200,
@@ -32,8 +38,10 @@
     "title": "Chichiri Shopping Mall",
     "status": "publish",
     "link": "https://izebuy.com/chichiri-shopping-mall/",
-    "chars": 7118,
-    "flags": []
+    "chars": 5713,
+    "flags": [
+      "preserved-original"
+    ]
   },
   {
     "id": 4364,
@@ -41,8 +49,10 @@
     "title": "Blantyre Flea Market and City Centre",
     "status": "publish",
     "link": "https://izebuy.com/blantyre-flea-market/",
-    "chars": 7382,
-    "flags": []
+    "chars": 7840,
+    "flags": [
+      "preserved-original"
+    ]
   },
   {
     "id": 4404,
@@ -50,8 +60,10 @@
     "title": "Limbe Market and Centre",
     "status": "publish",
     "link": "https://izebuy.com/limbe-market/",
-    "chars": 6975,
-    "flags": []
+    "chars": 6452,
+    "flags": [
+      "preserved-original"
+    ]
   },
   {
     "id": 4413,
@@ -59,8 +71,10 @@
     "title": "Chirimba Market",
     "status": "publish",
     "link": "https://izebuy.com/chirimba-market/",
-    "chars": 7176,
-    "flags": []
+    "chars": 5812,
+    "flags": [
+      "preserved-original"
+    ]
   },
   {
     "id": 4458,
@@ -68,7 +82,9 @@
     "title": "Mbayani Market",
     "status": "publish",
     "link": "https://izebuy.com/mbayani-market/",
-    "chars": 7058,
-    "flags": []
+    "chars": 5679,
+    "flags": [
+      "preserved-original"
+    ]
   }
 ]
