@@ -44,6 +44,22 @@
 .izebuy-post figcaption{ font-size:13px; font-style:italic; margin-top:6px; }
 .izebuy-post .clear{ clear:both; }
 
+/* A lone standalone image (one the writer dropped in without a label) is shown
+   large but height-capped and centred, so a tall portrait shot can't tower over
+   the page. Aspect ratio is preserved — never cropped. Excludes the map. */
+.izebuy-post > figure:not(.izebuy-map){ text-align:center; }
+.izebuy-post > figure:not(.izebuy-map) img{ width:auto; max-width:100%;
+  max-height:560px; margin:0 auto; }
+
+/* A run of standalone images flows into a balanced gallery instead of stacking
+   into one giant column — this is what keeps image-heavy posts looking good.
+   Tiles share a uniform 4:3 frame so the rows stay tidy. */
+.izebuy-gallery{ display:grid; gap:18px; margin:16px 0;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); }
+.izebuy-gallery figure{ margin:0; }
+.izebuy-post .izebuy-gallery img{ width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; }
+.izebuy-gallery figcaption{ text-align:center; }
+
 /* Float helpers for text-heavy sections (text wraps the image) */
 .izebuy-figR{ float:right; width:420px; margin:4px 0 14px 28px; }
 .izebuy-figL{ float:left;  width:420px; margin:4px 28px 14px 0; }

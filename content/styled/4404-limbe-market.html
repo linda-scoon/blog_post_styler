@@ -52,6 +52,22 @@ body{margin:0;padding:40px 16px;}
 .izebuy-post figcaption{ font-size:13px; font-style:italic; margin-top:6px; }
 .izebuy-post .clear{ clear:both; }
 
+/* A lone standalone image (one the writer dropped in without a label) is shown
+   large but height-capped and centred, so a tall portrait shot can't tower over
+   the page. Aspect ratio is preserved — never cropped. Excludes the map. */
+.izebuy-post > figure:not(.izebuy-map){ text-align:center; }
+.izebuy-post > figure:not(.izebuy-map) img{ width:auto; max-width:100%;
+  max-height:560px; margin:0 auto; }
+
+/* A run of standalone images flows into a balanced gallery instead of stacking
+   into one giant column — this is what keeps image-heavy posts looking good.
+   Tiles share a uniform 4:3 frame so the rows stay tidy. */
+.izebuy-gallery{ display:grid; gap:18px; margin:16px 0;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); }
+.izebuy-gallery figure{ margin:0; }
+.izebuy-post .izebuy-gallery img{ width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; }
+.izebuy-gallery figcaption{ text-align:center; }
+
 /* Float helpers for text-heavy sections (text wraps the image) */
 .izebuy-figR{ float:right; width:420px; margin:4px 0 14px 28px; }
 .izebuy-figL{ float:left;  width:420px; margin:4px 28px 14px 0; }
@@ -73,10 +89,10 @@ ul.izebuy-bullets{ list-style:none; padding:0; margin:0 0 20px; }
 ul.izebuy-bullets li{ position:relative; padding:11px 0 11px 30px; border-bottom:1px dotted; font-size:17px; }
 ul.izebuy-bullets li::before{ content:"\203A"; position:absolute; left:8px; top:9px; font-weight:bold; font-size:20px; }
 
-/* About-the-author — a small, centred card (not full width), with a light
+/* About-the-author — a small, left-aligned card (not full width), with a light
    neutral background so it reads as a proper "about" section.
    Emitted ONLY when the source post already has author info. */
-.izebuy-author{ max-width:560px; margin:48px auto 0; display:flex; gap:20px;
+.izebuy-author{ max-width:560px; margin:48px 0 0; display:flex; gap:20px;
   align-items:center; padding:20px 24px; border:1px solid; border-radius:8px;
   background:#f5f5f5; }
 .izebuy-author figure{ flex:0 0 84px; margin:0; }
@@ -93,7 +109,7 @@ ul.izebuy-bullets li::before{ content:"\203A"; position:absolute; left:8px; top:
   .izebuy-toc{ flex-basis:auto; width:100%; box-sizing:border-box; }
   .izebuy-figR,.izebuy-figL{ float:none; width:100%; margin:0 0 16px; }
   .izebuy-items{ grid-template-columns:1fr; }
-  .izebuy-author{ flex-direction:column; text-align:center; }
+  .izebuy-author{ flex-direction:column; align-items:flex-start; }
 }
 
 .ph{background:repeating-linear-gradient(45deg,#eee,#eee 14px,#e3e3e3 14px,#e3e3e3 28px);display:flex;align-items:center;justify-content:center;font:italic 13px Georgia;text-align:center;padding:10px;box-sizing:border-box;border:1px solid;min-height:120px;}
