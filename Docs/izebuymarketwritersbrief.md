@@ -35,6 +35,11 @@ follow every prompt below, you'll reach it naturally.
 
 - **Landscape orientation** (phone held sideways), good light, in focus.
 - **One clear subject per photo** — the thing you're describing.
+- **Write the words first, then put the photo directly underneath.** For every
+  shop, stall, or product, type its **name and description first**, then drop its
+  photo **right below** that text — never the photo above the name. The system
+  pairs each photo with the name written just before it, so a photo placed above
+  its name gets attached to the wrong item.
 - **Name each photo file after what it shows**, in lower case with hyphens:
   - The shop or stall name → `lsm-general-dealers.jpg`, `faith-salon.jpg`
   - The section it belongs to → `getting-to-mbayani.jpg`, `the-fish-side.jpg`
@@ -139,7 +144,8 @@ The fixed shops and services (not the daily stalls). For **each one**, give:
 - Its **name**.
 - What it sells / does, in a line.
 - **Opening days and hours.**
-- A **photo named after the shop** (e.g. `first-quality-designs.jpg`).
+- A **photo named after the shop** (e.g. `first-quality-designs.jpg`), placed
+  **directly under that shop's name and description** — not above it.
 
 Include services too — mills, barbershops, salons, phone/airtime, etc.
 **~150–300 words.**
@@ -195,4 +201,6 @@ A short bio, written by you, in third person:
 - Don't copy history or descriptions from other websites.
 - Don't position or resize photos yourself — just drop them in the right section;
   the system arranges them.
+- Don't put a photo *above* the name it belongs to — name and description first,
+  then the photo directly under it (see Photos).
 - Don't add tables, text boxes, coloured text or fancy fonts — they're stripped out.
