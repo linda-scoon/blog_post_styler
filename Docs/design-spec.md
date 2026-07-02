@@ -43,6 +43,11 @@ were consolidated here.) Locked to the **"gold standard"** design
 - **Item grid** — `.izebuy-items` (two-column grid) of `.izebuy-item` cards for
   shops/products. Each card: `figure > img`, then `.it-cap` with `.it-name` (bold,
   own line) and `.it-text` beneath. **No leading colon** before the description.
+  A photo pairs with its `Name: description` label whether the writer put the
+  label **before** the photo (the usual order) or **above** it (photo-then-caption,
+  detected when a section runs `photo, label, photo, label…`). Cards in a run stay
+  in one contiguous grid; a genuinely unlabelled photo becomes a standalone figure
+  or, with others, a gallery — it never splits the grid.
 - **Bold-lead items** (a labelled item with no photo, e.g. services) → a paragraph
   `<p><b>Name</b> description</p>` — again **no colon** after the name.
 - **Standalone image** (a photo the writer dropped in with no item label) — a

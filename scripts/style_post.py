@@ -121,6 +121,49 @@ def tokenize(content):
     return blocks
 
 
+def is_card_label(kind, val):
+    """A '<strong>Name: description</strong>' paragraph (a potential card/label),
+    excluding the 'About the author' marker."""
+    if kind != "p":
+        return False
+    lm = STRONG_LABEL_RE.match(val.strip())
+    return bool(lm) and not text_only(val).lower().startswith("about the author")
+
+
+def normalize_photo_captions(blocks):
+    """Handle writers who put the PHOTO first and the 'Name: description' caption
+    directly beneath it (image-above-caption) — the reverse of the usual
+    label-then-photo order.
+
+    When a run clearly follows that reversed pattern — IMG,LABEL,IMG,LABEL,...
+    with at least two pairs, starting at a heading/paragraph boundary — each
+    IMG,LABEL pair is reordered to LABEL,IMG so the normal pairing turns them
+    into proper cards (instead of an orphan photo + a photo-less text label, or,
+    worse, a label paired with the NEXT shop's photo). Requiring two alternating
+    pairs keeps a lone section-intro photo (e.g. IMG then unrelated Q&A labels)
+    from being mistaken for a caption pair."""
+    def is_lbl(b):
+        return is_card_label(*b)
+    def is_img(b):
+        return b[0] == "img"
+    out = list(blocks)
+    n = len(out)
+    i = 0
+    while i < n:
+        boundary = (i == 0) or not (is_img(out[i - 1]) or is_lbl(out[i - 1]))
+        pairs, j = 0, i
+        while j + 1 < n and is_img(out[j]) and is_lbl(out[j + 1]):
+            pairs += 1
+            j += 2
+        if boundary and pairs >= 2:
+            for k in range(i, j, 2):
+                out[k], out[k + 1] = out[k + 1], out[k]
+            i = j
+        else:
+            i += 1
+    return out
+
+
 def figure_html(src, alt):
     cap = f"<figcaption>{html.escape(alt)}</figcaption>" if alt else ""
     return f'<figure><img src="{src}" alt="{html.escape(alt)}">{cap}</figure>'
@@ -296,6 +339,7 @@ def convert(json_path):
     title = collapse_ws(post.get("title") or "")
     content = clean_shortcodes(post.get("content_raw") or "")
     blocks = tokenize(content)
+    blocks = normalize_photo_captions(blocks)
     author, blocks = extract_author(blocks)
     article = build_article(title, blocks, post.get("cover_image"))
     if author:
