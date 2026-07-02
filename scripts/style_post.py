@@ -56,7 +56,7 @@ BLOCK_RE = re.compile(
     r"|<img(?P<img>[^>]*?)/?>",
     re.DOTALL | re.IGNORECASE,
 )
-STRONG_LABEL_RE = re.compile(r"^\s*<strong>\s*(?P<name>.*?)\s*</strong>\s*:?\s*(?P<rest>.*)$",
+STRONG_LABEL_RE = re.compile(r"^\s*<strong>\s*(?P<name>.*?)\s*</strong>\s*[:;]?\s*(?P<rest>.*)$",
                              re.DOTALL | re.IGNORECASE)
 
 
@@ -126,8 +126,34 @@ def figure_html(src, alt):
     return f'<figure><img src="{src}" alt="{html.escape(alt)}">{cap}</figure>'
 
 
+def label_html(raw_name):
+    """Bold label text for an item/service. raw_name is the inner HTML of
+    <strong>...</strong>; the visible text is cleaned & escaped, but if the
+    writer wrapped the label in a link we keep the link (don't drop it)."""
+    text = collapse_ws(text_only(raw_name)).rstrip(":; ").strip()
+    esc = html.escape(text, quote=False)
+    href = re.search(r'<a\s[^>]*href="([^"]+)"', raw_name, re.I)
+    return f'<a href="{html.escape(href.group(1))}">{esc}</a>' if href else esc
+
+
+def item_card_html(label, rest, src, alt):
+    # label is already safe HTML (see label_html); rest keeps its inline HTML
+    # (links/entities) exactly as the writer wrote it.
+    return ('<div class="izebuy-item"><figure>'
+            f'<img src="{src}" alt="{html.escape(alt)}"></figure>'
+            f'<div class="it-cap"><span class="it-name">{label}</span>'
+            f'<span class="it-text">{rest}</span></div></div>')
+
+
 def render_section_body(blocks):
-    """Render the blocks inside one section, preserving all text."""
+    """Render the blocks inside one section, preserving all text.
+
+    Item cards (a label + its photo) are kept CONTIGUOUS in one grid — an
+    unlabelled photo never splits that grid. Loose photos are collected and
+    emitted together *after* the grid (one -> a single figure, several -> a
+    gallery), so shops/products stay in one clean 2-column grid instead of
+    fragmenting around stray images.
+    """
     out, grid, gallery = [], [], []
     pending = None   # a strong-labelled paragraph awaiting an image
 
@@ -137,7 +163,7 @@ def render_section_body(blocks):
             grid.clear()
 
     def flush_gallery():
-        # One stray image stays a single large figure; a run of them becomes a
+        # One loose photo stays a single large figure; a run of them becomes a
         # balanced gallery so image-heavy posts don't turn into a giant column.
         if len(gallery) == 1:
             out.append(figure_html(*gallery[0]))
@@ -146,35 +172,31 @@ def render_section_body(blocks):
             out.append('<div class="izebuy-gallery">\n' + cells + "\n</div>")
         gallery.clear()
 
+    def flush_media():
+        # cards first (one contiguous grid), then any loose photos after them
+        flush_grid(); flush_gallery()
+
     def flush_pending():
         nonlocal pending
         if pending:
-            # any cards/images that came before this label are emitted first
-            flush_grid(); flush_gallery()
-            name, rest = pending
-            out.append(f"<p><b>{name}</b>{(' ' + rest) if rest else ''}</p>")
+            flush_media()      # cards/photos before this label are emitted first
+            label, rest = pending
+            out.append(f"<p><b>{label}</b>{(' ' + rest) if rest else ''}</p>")
             pending = None
 
     for kind, val in blocks:
         if kind == "img":
             src, alt = val
             if pending:                       # label + image = an item card
-                flush_gallery()               # standalone images before it come first
                 name, rest = pending
-                grid.append(
-                    '<div class="izebuy-item"><figure>'
-                    f'<img src="{src}" alt="{html.escape(alt)}"></figure>'
-                    f'<div class="it-cap"><span class="it-name">{name}</span>'
-                    f'<span class="it-text">{rest}</span></div></div>'
-                )
+                grid.append(item_card_html(name, rest, src, alt))
                 pending = None
-            else:                             # no label: collect into the gallery
-                flush_grid()                  # close any open card run first
-                gallery.append((src, alt))
+            else:                             # no label: a loose photo, held so
+                gallery.append((src, alt))    # it can't split the item grid
             continue
 
         if kind == "iframe":                  # the Google map, kept in place
-            flush_pending(); flush_grid(); flush_gallery()
+            flush_pending(); flush_media()
             # drop width/height and the leftover sprintf placeholders
             # (title="%3$s" / aria-label="%3$s") which can fatal a PHP plugin on save
             ifr = re.sub(r'\s(?:width|height|title|aria-label)="[^"]*"', "", val)
@@ -193,14 +215,13 @@ def render_section_body(blocks):
                 is_label = True
         if is_label:
             flush_pending()
-            name = collapse_ws(text_only(lm.group("name"))).rstrip(": ").strip()
-            pending = (name, collapse_ws(lm.group("rest")))
+            pending = (label_html(lm.group("name")), collapse_ws(lm.group("rest")))
             continue
 
-        # genuine non-card block: ends any run of cards
-        flush_pending(); flush_grid(); flush_gallery()
+        # genuine non-card block: ends the run of cards/photos
+        flush_pending(); flush_media()
         if kind == "h4":
-            out.append(f"<h3>{collapse_ws(text_only(val))}</h3>")
+            out.append(f"<h3>{html.escape(collapse_ws(text_only(val)), quote=False)}</h3>")
         elif kind in ("ul", "ol"):
             out.append(val.strip())
         elif kind == "p":
@@ -209,7 +230,7 @@ def render_section_body(blocks):
                 out.append('<nav class="izebuy-toc">[toc]</nav>')
             elif text_only(inner):
                 out.append(f"<p>{inner}</p>")
-    flush_pending(); flush_grid(); flush_gallery()
+    flush_pending(); flush_media()
     return "\n".join(out)
 
 
@@ -222,7 +243,16 @@ def extract_author(blocks):
                 if k == "img" and not photo:
                     photo = v[0]
                 elif k == "p" and not bio and text_only(v):
-                    bio = collapse_ws(v)
+                    # some posts embed the author photo INSIDE the bio paragraph
+                    # (<p><img ...>bio text</p>); pull it out so it becomes the
+                    # round avatar figure instead of an inline image in the text.
+                    if not photo:
+                        mimg = re.search(r"<img[^>]*>", v, re.I)
+                        if mimg:
+                            src, _ = img_attrs(mimg.group(0))
+                            if src:
+                                photo = src
+                    bio = collapse_ws(re.sub(r"<img[^>]*>", "", v))
                 else:
                     rest.append((k, v))
             img = f'<figure><img src="{photo}" alt="Author photo"></figure>' if photo else ""
@@ -255,7 +285,7 @@ def build_article(title, blocks, cover=None):
     if intro:
         parts.append(render_section_body(intro))
     for s in sections:
-        parts.append(f'<h2 id="{slugify(s["title"])}">{s["title"]}</h2>')
+        parts.append(f'<h2 id="{slugify(s["title"])}">{html.escape(s["title"], quote=False)}</h2>')
         parts.append(render_section_body(s["blocks"]))
     return "\n".join(p for p in parts if p)
 
